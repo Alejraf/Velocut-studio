@@ -4,12 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#090b10" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="VeloCut" />
   <meta name="description" content="VeloCut Studio - Editor de video y fotos Pro con leyendas automáticas, clips musicales virales, fondos 3D/2D y suscripción Pro." />
   <title>VeloCut Studio — Editor de Video y Fotos Pro</title>
 
-  <link id="dynamic-favicon" rel="icon" type="image/png" />
-  <link id="dynamic-apple-icon" rel="apple-touch-icon" />
-  <link id="dynamic-manifest" rel="manifest" />
+  <link rel="icon" type="image/png" href="icon-512.png" />
+  <link rel="apple-touch-icon" href="icon-512.png" />
+  <link rel="manifest" href="manifest.json" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -47,7 +50,7 @@
     <!-- Brand + Install Trigger -->
     <div class="flex items-center gap-1.5 shrink-0">
       <button onclick="openInstallModal()" title="Instalar App / Logo 3D" class="relative w-8 h-8 md:w-9 md:h-9 rounded-xl overflow-hidden shadow-lg shadow-emerald-500/20 border border-emerald-400/40 shrink-0 active:scale-95 transition">
-        <img id="header-logo-img" alt="VeloCut 3D Logo" class="w-full h-full object-cover" />
+        <img src="icon-512.png" alt="VeloCut 3D Logo" class="w-full h-full object-cover" />
       </button>
       <div class="hidden md:block">
         <div class="flex items-center gap-1.5">
@@ -108,6 +111,12 @@
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
         <span id="export-live-text" class="text-xs font-semibold text-emerald-300">Procesando video...</span>
         <span id="export-live-pct" class="text-xs font-mono font-bold text-white">0%</span>
+      </div>
+
+      <!-- Download Complete Toast -->
+      <div id="export-done-toast" class="hidden absolute top-3 left-1/2 -translate-x-1/2 z-50 bg-emerald-950/95 border border-emerald-400 px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-2.5">
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+        <span id="export-done-text" class="text-xs font-bold text-white">¡Video guardado en Descargas! De vuelta en el editor.</span>
       </div>
 
       <!-- Canvas Wrapper -->
@@ -450,13 +459,11 @@
         <span class="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-[#009ee3]/20 text-sky-300 border border-[#009ee3]/40">Mercado Pago</span>
       </div>
 
-      <!-- Mercado Pago Checkout Button -->
       <button onclick="payWithMercadoPago()" class="w-full py-3 px-4 rounded-xl bg-[#009ee3] hover:bg-[#008ed0] text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-sky-500/30 transition">
         <i data-lucide="credit-card" class="w-4 h-4"></i>
         <span>Assinar com Mercado Pago (R$)</span>
       </button>
 
-      <!-- Activation Code / Receipt Verification -->
       <div class="pt-2 border-t border-slate-800 space-y-2">
         <p class="text-[11px] text-slate-400 text-center">¿Ya pagaste en Mercado Pago? Ingresa tu código de activación PRO:</p>
         <div class="flex gap-2">
@@ -470,18 +477,18 @@
   <!-- INSTALL & 3D LOGO MODAL -->
   <div id="install-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-[#101520] border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 text-center shadow-2xl">
-      <img id="modal-logo-img" class="w-28 h-28 mx-auto rounded-3xl shadow-2xl border border-emerald-400/40" alt="VeloCut 3D Icon" />
+      <img src="icon-512.png" class="w-28 h-28 mx-auto rounded-3xl shadow-2xl border border-emerald-400/40" alt="VeloCut 3D Icon" />
       <h3 class="text-lg font-extrabold text-white">Instalar VeloCut Studio</h3>
       <p class="text-xs text-slate-300 leading-relaxed">
-        Añade VeloCut Studio a tu pantalla de inicio con su ícono tridimensional Full HD (toca el menú <strong>⋮ → Añadir a pantalla de inicio</strong>) o descarga el logotipo oficial.
+        Instala VeloCut Studio como aplicación nativa con su ícono tridimensional Full HD (pulsa el botón inferior o el menú <strong>⋮ → Instalar aplicación</strong>).
       </p>
       <div class="flex flex-wrap gap-2 justify-center pt-2">
         <button id="btn-pwa-native-install" onclick="triggerNativePWAInstall()" class="hidden px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs">
-          Instalar Ahora
+          Instalar Aplicación Ahora
         </button>
-        <button onclick="download3DLogo()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">
-          Descargar Logo 3D (1024px)
-        </button>
+        <a href="icon-512.png" download="VeloCut-Studio-3D-Logo.png" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">
+          Descargar Logo 3D
+        </a>
         <button onclick="closeInstallModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs">
           Cerrar
         </button>
@@ -489,11 +496,40 @@
     </div>
   </div>
 
-  <!-- HIDDEN MEDIA ELEMENTS -->
-  <video id="source-video" class="hidden" playsinline crossorigin="anonymous"></video>
-  <audio id="source-audio" class="hidden" crossorigin="anonymous"></audio>
+  <!-- VISIBLE-READY VIDEO ELEMENT (2x2 opacity-0.01 keeps mobile hardware decoder active) -->
+  <video id="source-video" playsinline webkit-playsinline muted preload="auto" style="position:fixed; bottom:0; right:0; width:2px; height:2px; opacity:0.01; pointer-events:none; z-index:-1;"></video>
+  <audio id="source-audio" preload="auto"></audio>
 
   <script>
+    // =========================================================================
+    // 0. REGISTRO DE SERVICE WORKER PARA INSTALACIÓN NATIVA PWA Y PWABUILDER
+    // =========================================================================
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+
+    let deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const btn = document.getElementById('btn-pwa-native-install');
+      if (btn) btn.classList.remove('hidden');
+    });
+
+    function triggerNativePWAInstall() {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      deferredInstallPrompt.userChoice.then(() => {
+        deferredInstallPrompt = null;
+        closeInstallModal();
+      });
+    }
+
+    function openInstallModal() { document.getElementById('install-modal').classList.remove('hidden'); }
+    function closeInstallModal() { document.getElementById('install-modal').classList.add('hidden'); }
+
     // =========================================================================
     // 1. CONFIGURACIÓN DE MONETIZACIÓN (MONETAG DIRECT LINK INTEGRADO + MERCADO PAGO)
     // =========================================================================
@@ -570,7 +606,8 @@
         tabTrim: "Recorte",
         tabFilters: "Filtros",
         adVerifying: "Viendo anuncio patrocinador...",
-        exporting: "Exportando video HD..."
+        exporting: "Renderizando y guardando video...",
+        exportDone: "¡Video guardado en Descargas! De vuelta en el editor."
       },
       pt: {
         subtitle: "Vídeo, Fotos, Legendas & Música",
@@ -584,7 +621,8 @@
         tabTrim: "Cortar",
         tabFilters: "Filtros",
         adVerifying: "Assistindo anúncio patrocinador...",
-        exporting: "Exportando vídeo HD..."
+        exporting: "Renderizando e salvando vídeo...",
+        exportDone: "Vídeo salvo em Downloads! De volta ao editor."
       },
       en: {
         subtitle: "Video, Photos, Captions & Music",
@@ -598,7 +636,8 @@
         tabTrim: "Trim",
         tabFilters: "Filters",
         adVerifying: "Watching sponsor ad...",
-        exporting: "Exporting HD Video..."
+        exporting: "Rendering & saving video...",
+        exportDone: "Video saved to Downloads! Back in editor."
       },
       fr: {
         subtitle: "Vidéo, Photos, Sous-titres & Musique",
@@ -612,7 +651,8 @@
         tabTrim: "Couper",
         tabFilters: "Filtres",
         adVerifying: "Vérification sponsor...",
-        exporting: "Exportation vidéo HD..."
+        exporting: "Rendu et sauvegarde vidéo...",
+        exportDone: "Vidéo enregistrée ! Retour à l'éditeur."
       },
       it: {
         subtitle: "Video, Foto, Sottotitoli & Musica",
@@ -626,7 +666,8 @@
         tabTrim: "Taglia",
         tabFilters: "Filtri",
         adVerifying: "Verifica sponsor...",
-        exporting: "Esportazione video HD..."
+        exporting: "Rendering e salvataggio video...",
+        exportDone: "Video salvato nei Download! Di nuovo nell'editor."
       }
     };
 
@@ -759,9 +800,10 @@
         localStorage.setItem('velocut_autocap_credits', String(autoCaptionCredits));
         updateAutoCapUI();
         banner.classList.add('hidden');
+        window.focus();
       };
 
-      window.open(MONETAG_CONFIG.directLink, '_blank');
+      const adWin = window.open(MONETAG_CONFIG.directLink, '_blank');
       banner.classList.remove('hidden');
       bannerText.innerText = t.adVerifying + ' (+3 Leyendas)';
       let sec = MONETAG_CONFIG.waitSeconds;
@@ -772,6 +814,7 @@
         bannerPct.innerText = Math.max(0, sec) + 's';
         if (sec <= 0) {
           clearInterval(timer);
+          try { if (adWin && !adWin.closed) adWin.close(); } catch (e) {}
           grantThreeCredits();
         }
       }, 1000);
@@ -855,7 +898,7 @@
       let step = 0;
       const stepMs = (60 / tr.bpm) * 500;
       synthInterval = setInterval(() => {
-        if (!isPlaying || videoEl.muted) return;
+        if (!isPlaying || isProjectMuted) return;
         const freq = tr.notes[step % tr.notes.length];
         playSynthNote(freq, stepMs / 1000);
         step++;
@@ -927,137 +970,7 @@
     }
 
     // =========================================================================
-    // 5. LOGO 3D FULL HD + PWA MANIFEST
-    // =========================================================================
-    let logo3DDataURL = '';
-    let deferredInstallPrompt = null;
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredInstallPrompt = e;
-      const btn = document.getElementById('btn-pwa-native-install');
-      if (btn) btn.classList.remove('hidden');
-    });
-
-    function triggerNativePWAInstall() {
-      if (!deferredInstallPrompt) return;
-      deferredInstallPrompt.prompt();
-      deferredInstallPrompt.userChoice.then(() => {
-        deferredInstallPrompt = null;
-        closeInstallModal();
-      });
-    }
-
-    function generate3DAppIcon() {
-      const c = document.createElement('canvas');
-      c.width = 1024;
-      c.height = 1024;
-      const ctx = c.getContext('2d');
-
-      const r = 220;
-      ctx.beginPath();
-      ctx.moveTo(r, 0);
-      ctx.lineTo(1024 - r, 0);
-      ctx.quadraticCurveTo(1024, 0, 1024, r);
-      ctx.lineTo(1024, 1024 - r);
-      ctx.quadraticCurveTo(1024, 1024, 1024 - r, 1024);
-      ctx.lineTo(r, 1024);
-      ctx.quadraticCurveTo(0, 1024, 0, 1024 - r);
-      ctx.lineTo(0, r);
-      ctx.quadraticCurveTo(0, 0, r, 0);
-      ctx.closePath();
-      ctx.clip();
-
-      const bgGrad = ctx.createLinearGradient(0, 0, 1024, 1024);
-      bgGrad.addColorStop(0, '#070b14');
-      bgGrad.addColorStop(0.5, '#0f172a');
-      bgGrad.addColorStop(1, '#042f2e');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, 1024, 1024);
-
-      const glow = ctx.createRadialGradient(512, 512, 60, 512, 512, 480);
-      glow.addColorStop(0, 'rgba(16, 185, 129, 0.45)');
-      glow.addColorStop(0.6, 'rgba(6, 182, 212, 0.15)');
-      glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, 1024, 1024);
-
-      for (let i = 28; i >= 0; i--) {
-        ctx.save();
-        ctx.translate(512 - i * 1.4, 530 + i * 1.6);
-        ctx.beginPath();
-        ctx.moveTo(-250, -240);
-        ctx.lineTo(-90, -240);
-        ctx.lineTo(0, 60);
-        ctx.lineTo(90, -240);
-        ctx.lineTo(250, -240);
-        ctx.lineTo(65, 270);
-        ctx.lineTo(-65, 270);
-        ctx.closePath();
-
-        if (i === 0) {
-          const faceGrad = ctx.createLinearGradient(-250, -240, 250, 270);
-          faceGrad.addColorStop(0, '#34d399');
-          faceGrad.addColorStop(0.5, '#22d3ee');
-          faceGrad.addColorStop(1, '#818cf8');
-          ctx.fillStyle = faceGrad;
-          ctx.shadowColor = 'rgba(16, 185, 129, 0.7)';
-          ctx.shadowBlur = 45;
-          ctx.fill();
-          ctx.lineWidth = 6;
-          ctx.strokeStyle = 'rgba(255,255,255,0.65)';
-          ctx.stroke();
-        } else {
-          ctx.fillStyle = `rgb(${10 + i}, ${45 + i * 2}, ${65 + i * 2})`;
-          ctx.fill();
-        }
-        ctx.restore();
-      }
-
-      ctx.save();
-      ctx.translate(512, 455);
-      ctx.beginPath();
-      ctx.moveTo(-36, -48);
-      ctx.lineTo(54, 0);
-      ctx.lineTo(-36, 48);
-      ctx.closePath();
-      ctx.fillStyle = '#ffffff';
-      ctx.shadowColor = '#ffffff';
-      ctx.shadowBlur = 20;
-      ctx.fill();
-      ctx.restore();
-
-      logo3DDataURL = c.toDataURL('image/png');
-      document.getElementById('header-logo-img').src = logo3DDataURL;
-      document.getElementById('modal-logo-img').src = logo3DDataURL;
-      document.getElementById('dynamic-favicon').href = logo3DDataURL;
-      document.getElementById('dynamic-apple-icon').href = logo3DDataURL;
-
-      const manifest = {
-        name: "VeloCut Studio 3D",
-        short_name: "VeloCut",
-        start_url: ".",
-        display: "standalone",
-        background_color: "#090b10",
-        theme_color: "#10b981",
-        icons: [{ src: logo3DDataURL, sizes: "1024x1024", type: "image/png" }]
-      };
-      const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-      document.getElementById('dynamic-manifest').href = URL.createObjectURL(blob);
-    }
-
-    function download3DLogo() {
-      const a = document.createElement('a');
-      a.href = logo3DDataURL;
-      a.download = 'VeloCut-Studio-3D-Logo-FullHD.png';
-      a.click();
-    }
-
-    function openInstallModal() { document.getElementById('install-modal').classList.remove('hidden'); }
-    function closeInstallModal() { document.getElementById('install-modal').classList.add('hidden'); }
-
-    // =========================================================================
-    // 6. GESTOR DE VIDEOS Y FOTOS DEL DISPOSITIVO
+    // 5. GESTOR DE VIDEOS Y FOTOS DEL DISPOSITIVO (HARDWARE DECODING FIX)
     // =========================================================================
     const videoEl = document.getElementById('source-video');
     const audioEl = document.getElementById('source-audio');
@@ -1066,6 +979,7 @@
     let activeMediaIndex = 0;
     let photoDurationSec = 3.0;
     let isPlaying = false;
+    let isProjectMuted = false;
     let simTime = 0;
     let duration = 10.0;
     let trimStart = 0.0;
@@ -1077,9 +991,13 @@
       if (!files.length) return;
 
       let loadedCount = 0;
+      const totalFiles = files.length;
+
       files.forEach(file => {
         const url = URL.createObjectURL(file);
-        if (file.type.startsWith('image/')) {
+        const isImg = file.type.startsWith('image/') || /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name);
+
+        if (isImg) {
           const img = new Image();
           img.onload = () => {
             mediaItems.push({
@@ -1091,32 +1009,51 @@
               duration: photoDurationSec
             });
             loadedCount++;
-            if (loadedCount === files.length) finalizeMediaBatch();
+            if (loadedCount === totalFiles) finalizeMediaBatch();
+          };
+          img.onerror = () => {
+            loadedCount++;
+            if (loadedCount === totalFiles) finalizeMediaBatch();
           };
           img.src = url;
-        } else if (file.type.startsWith('video/')) {
+        } else {
           const tempVid = document.createElement('video');
           tempVid.preload = 'metadata';
-          tempVid.onloadedmetadata = () => {
+          tempVid.muted = true;
+          tempVid.playsInline = true;
+
+          let settled = false;
+          const finishVideoProbe = (vidDur) => {
+            if (settled) return;
+            settled = true;
             mediaItems.push({
               id: Date.now() + Math.random(),
               type: 'video',
               name: file.name,
               url,
-              duration: tempVid.duration || 8.0
+              duration: (vidDur && isFinite(vidDur) && vidDur > 0) ? vidDur : 8.0
             });
             loadedCount++;
-            if (loadedCount === files.length) finalizeMediaBatch();
+            if (loadedCount === totalFiles) finalizeMediaBatch();
           };
+
+          tempVid.onloadedmetadata = () => finishVideoProbe(tempVid.duration);
+          tempVid.onerror = () => finishVideoProbe(8.0);
+          setTimeout(() => finishVideoProbe(tempVid.duration), 1500);
           tempVid.src = url;
         }
       });
+
+      e.target.value = '';
     }
 
     function finalizeMediaBatch() {
       recalculateProjectDuration();
       renderMediaPlaylist();
-      activateMediaItem(0, true);
+      if (mediaItems.length > 0) {
+        simTime = 0;
+        activateMediaItem(0, true);
+      }
     }
 
     function recalculateProjectDuration() {
@@ -1141,13 +1078,38 @@
       if (!mediaItems[idx]) return;
       activeMediaIndex = idx;
       const item = mediaItems[idx];
+
       if (item.type === 'video') {
-        if (videoEl.src !== item.url) videoEl.src = item.url;
+        if (videoEl.src !== item.url) {
+          videoEl.src = item.url;
+          videoEl.load();
+        }
+        videoEl.muted = true;
         videoEl.playbackRate = playbackSpeed;
-        if (autoPlay) { videoEl.play(); isPlaying = true; updatePlayIcon(); }
+
+        const startVideoPlayback = () => {
+          videoEl.play().then(() => {
+            isPlaying = true;
+            updatePlayIcon();
+          }).catch(() => {
+            isPlaying = true;
+            updatePlayIcon();
+          });
+        };
+
+        if (autoPlay) {
+          if (videoEl.readyState >= 2) {
+            startVideoPlayback();
+          } else {
+            videoEl.onloadeddata = () => startVideoPlayback();
+          }
+        }
       } else {
         videoEl.pause();
-        if (autoPlay) { isPlaying = true; updatePlayIcon(); }
+        if (autoPlay) {
+          isPlaying = true;
+          updatePlayIcon();
+        }
       }
       renderMediaPlaylist();
     }
@@ -1186,11 +1148,11 @@
       let offset = 0;
       for (let i = 0; i < idx; i++) offset += mediaItems[i].duration;
       simTime = offset;
-      activateMediaItem(idx, isPlaying);
+      activateMediaItem(idx, true);
     }
 
     // =========================================================================
-    // 7. FONDOS SIN DERECHOS DE AUTOR
+    // 6. FONDOS SIN DERECHOS DE AUTOR
     // =========================================================================
     const BACKGROUNDS = [
       { id: '3d-synthwave', cat: '3d', name: '3D Synthwave Grid' },
@@ -1374,7 +1336,7 @@
     }
 
     // =========================================================================
-    // 8. CONTROLES DE EDICIÓN, FILTROS, TEXTO Y EXPORTACIÓN DIRECTA
+    // 7. CONTROLES DE EDICIÓN, FILTROS, TEXTO Y EXPORTACIÓN DIRECTA
     // =========================================================================
     const canvas = document.getElementById('preview-canvas');
     const ctx = canvas.getContext('2d');
@@ -1417,8 +1379,10 @@
       isPlaying = !isPlaying;
       const currentItem = mediaItems[activeMediaIndex];
       if (isPlaying) {
-        if (currentItem && currentItem.type === 'video') videoEl.play();
-        if (audioEl.src) audioEl.play();
+        if (currentItem && currentItem.type === 'video') {
+          videoEl.play().catch(() => {});
+        }
+        if (audioEl.src) audioEl.play().catch(() => {});
         if (selectedRFTrack !== 'none') startSynthLoop();
       } else {
         videoEl.pause();
@@ -1435,10 +1399,10 @@
     }
 
     function toggleMute() {
-      videoEl.muted = !videoEl.muted;
-      audioEl.muted = videoEl.muted;
+      isProjectMuted = !isProjectMuted;
+      audioEl.muted = isProjectMuted;
       const icon = document.getElementById('mute-icon');
-      icon.setAttribute('data-lucide', videoEl.muted ? 'volume-x' : 'volume-2');
+      icon.setAttribute('data-lucide', isProjectMuted ? 'volume-x' : 'volume-2');
       lucide.createIcons();
     }
 
@@ -1576,7 +1540,7 @@
     });
 
     // =========================================================================
-    // 9. EXPORTACIÓN DIRECTA (SIN ANUNCIOS SI ES PRO, CON MONETAG SI ES FREE)
+    // 8. EXPORTACIÓN DIRECTA CON RENDERIZADO REAL + RETORNO AUTOMÁTICO AL APP
     // =========================================================================
     let isExporting = false;
 
@@ -1588,7 +1552,7 @@
       isPlaying = true;
       updatePlayIcon();
       if (selectedRFTrack !== 'none') startSynthLoop();
-      if (audioEl.src) audioEl.play();
+      if (audioEl.src) audioEl.play().catch(() => {});
 
       if (isProUser || !MONETAG_CONFIG.enabled) {
         startRealCanvasExport();
@@ -1602,17 +1566,35 @@
       banner.classList.remove('hidden');
       bannerText.innerText = t.adVerifying;
 
-      window.open(MONETAG_CONFIG.directLink, '_blank');
+      const adTab = window.open(MONETAG_CONFIG.directLink, '_blank');
       let remaining = MONETAG_CONFIG.waitSeconds;
       bannerPct.innerText = remaining + 's';
+
       const timer = setInterval(() => {
         remaining--;
         bannerPct.innerText = Math.max(0, remaining) + 's';
         if (remaining <= 0) {
           clearInterval(timer);
+          try { if (adTab && !adTab.closed) adTab.close(); } catch (e) {}
+          try { window.focus(); } catch (e) {}
           startRealCanvasExport();
         }
       }, 1000);
+    }
+
+    function getSupportedRecorderMimeType() {
+      const types = [
+        'video/webm;codecs=vp9,opus',
+        'video/webm;codecs=vp8,opus',
+        'video/webm',
+        'video/mp4'
+      ];
+      for (const type of types) {
+        if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(type)) {
+          return type;
+        }
+      }
+      return '';
     }
 
     function startRealCanvasExport() {
@@ -1629,43 +1611,77 @@
       isPlaying = true;
       updatePlayIcon();
 
+      drawCompositeFrame(simTime);
+
       const canvasStream = canvas.captureStream(30);
       if (synthDestNode && selectedRFTrack !== 'none') {
         synthDestNode.stream.getAudioTracks().forEach(track => canvasStream.addTrack(track));
       }
 
+      const mimeType = getSupportedRecorderMimeType();
       const chunks = [];
-      const recorder = new MediaRecorder(canvasStream, { mimeType: 'video/webm' });
+      const recorder = mimeType
+        ? new MediaRecorder(canvasStream, { mimeType })
+        : new MediaRecorder(canvasStream);
 
-      recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
-      recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'video/webm' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `VeloCut-Studio-${Date.now()}.webm`;
-        a.click();
-        isExporting = false;
-        banner.classList.add('hidden');
+      recorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) chunks.push(e.data);
       };
 
-      recorder.start();
-      const exportDurationMs = Math.max(1500, ((trimEnd - trimStart) / playbackSpeed) * 1000);
+      recorder.onstop = () => {
+        const finalType = mimeType || 'video/webm';
+        const ext = finalType.includes('mp4') ? 'mp4' : 'webm';
+        const blob = new Blob(chunks, { type: finalType });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `VeloCut-Studio-${Date.now()}.${ext}`;
+        document.body.appendChild(a);
+        a.click();
+
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 1500);
+
+        isExporting = false;
+        banner.classList.add('hidden');
+
+        try { window.focus(); } catch (e) {}
+        const toast = document.getElementById('export-done-toast');
+        document.getElementById('export-done-text').innerText = t.exportDone;
+        toast.classList.remove('hidden');
+        lucide.createIcons();
+        setTimeout(() => {
+          toast.classList.add('hidden');
+        }, 4000);
+      };
+
+      recorder.start(200);
+
+      const exportDurationMs = Math.max(2000, ((trimEnd - trimStart) / playbackSpeed) * 1000);
       const startTime = performance.now();
 
       const progressInterval = setInterval(() => {
         const elapsed = performance.now() - startTime;
         const pct = Math.min(100, Math.round((elapsed / exportDurationMs) * 100));
         bannerPct.innerText = pct + '%';
+
+        drawCompositeFrame(simTime);
+
         if (elapsed >= exportDurationMs) {
           clearInterval(progressInterval);
-          if (recorder.state !== 'inactive') recorder.stop();
+          if (recorder.state !== 'inactive') {
+            recorder.stop();
+          }
         }
-      }, 100);
+      }, 60);
     }
 
     // =========================================================================
-    // 10. BUCLE DE RENDERIZADO (VIDEOS + FOTOS + LEYENDAS AUTOMÁTICAS)
+    // 9. MOTOR DE RENDERIZADO (VIDEOS + FOTOS + LEYENDAS AUTOMÁTICAS)
     // =========================================================================
     function syncMediaToTime(t) {
       if (mediaItems.length === 0) return;
@@ -1673,10 +1689,17 @@
       for (let i = 0; i < mediaItems.length; i++) {
         const item = mediaItems[i];
         if (t >= acc && t < acc + item.duration) {
-          if (activeMediaIndex !== i) activateMediaItem(i, isPlaying);
+          if (activeMediaIndex !== i) {
+            activateMediaItem(i, isPlaying);
+          }
           if (item.type === 'video') {
-            const localTime = t - acc;
-            if (Math.abs(videoEl.currentTime - localTime) > 0.35) videoEl.currentTime = localTime;
+            const localTime = Math.max(0, t - acc);
+            if (videoEl.readyState >= 1 && Math.abs(videoEl.currentTime - localTime) > 0.4) {
+              try { videoEl.currentTime = localTime; } catch (e) {}
+            }
+            if (isPlaying && videoEl.paused && videoEl.readyState >= 2) {
+              videoEl.play().catch(() => {});
+            }
           }
           return;
         }
@@ -1699,54 +1722,52 @@
       ctx.clip();
     }
 
-    let lastFrameTime = performance.now();
-
-    function renderLoop(now) {
-      const dt = (now - lastFrameTime) / 1000;
-      lastFrameTime = now;
-
-      if (isPlaying) {
-        simTime += dt * playbackSpeed;
-        if (simTime >= trimEnd) {
-          simTime = trimStart;
-          if (audioEl.src) audioEl.currentTime = 0;
-        }
-        syncMediaToTime(simTime);
-      }
-
+    function drawCompositeFrame(t) {
       const w = canvas.width;
       const h = canvas.height;
 
-      // 1. Background
-      drawProceduralBackground(ctx, w, h, simTime);
+      drawProceduralBackground(ctx, w, h, t);
 
-      // 2. Active Media Clip
       ctx.save();
       ctx.filter = filterCSS;
 
       const currentItem = mediaItems[activeMediaIndex];
       if (currentItem) {
         let srcW = w, srcH = h;
-        if (currentItem.type === 'video' && videoEl.videoWidth) {
-          srcW = videoEl.videoWidth; srcH = videoEl.videoHeight;
+        if (currentItem.type === 'video' && videoEl.videoWidth > 0) {
+          srcW = videoEl.videoWidth;
+          srcH = videoEl.videoHeight;
         } else if (currentItem.type === 'image' && currentItem.imgObj) {
-          srcW = currentItem.imgObj.naturalWidth || w; srcH = currentItem.imgObj.naturalHeight || h;
+          srcW = currentItem.imgObj.naturalWidth || w;
+          srcH = currentItem.imgObj.naturalHeight || h;
         }
 
         const aspect = srcW / srcH;
         let drawW = w * videoScale;
         let drawH = drawW / aspect;
-        if (drawH > h * videoScale) { drawH = h * videoScale; drawW = drawH * aspect; }
+        if (drawH > h * videoScale) {
+          drawH = h * videoScale;
+          drawW = drawH * aspect;
+        }
 
         const vx = (w - drawW) / 2;
         const vy = (h - drawH) / 2;
         drawRoundedClip(ctx, vx, vy, drawW, drawH, cornerRadius);
 
-        if (currentItem.type === 'video' && videoEl.readyState >= 2) {
-          ctx.drawImage(videoEl, vx, vy, drawW, drawH);
+        if (currentItem.type === 'video') {
+          if (videoEl.readyState >= 2 && videoEl.videoWidth > 0) {
+            ctx.drawImage(videoEl, vx, vy, drawW, drawH);
+          } else {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(vx, vy, drawW, drawH);
+            ctx.fillStyle = '#34d399';
+            ctx.font = 'bold 22px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText('Cargando video...', w / 2, h / 2);
+          }
         } else if (currentItem.type === 'image' && currentItem.imgObj) {
           const useKB = document.getElementById('chk-kenburns').checked;
-          const zoom = useKB ? 1 + Math.sin(simTime * 1.5) * 0.06 + 0.06 : 1;
+          const zoom = useKB ? 1 + Math.sin(t * 1.5) * 0.06 + 0.06 : 1;
           const zw = drawW * zoom;
           const zh = drawH * zoom;
           ctx.drawImage(currentItem.imgObj, vx - (zw - drawW) / 2, vy - (zh - drawH) / 2, zw, zh);
@@ -1766,7 +1787,7 @@
 
         ctx.fillStyle = 'rgba(52, 211, 153, 0.22)';
         ctx.beginPath();
-        ctx.arc(w / 2, h / 2, 65 + Math.sin(simTime * 4) * 18, 0, Math.PI * 2);
+        ctx.arc(w / 2, h / 2, 65 + Math.sin(t * 4) * 18, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.fillStyle = '#ffffff';
@@ -1779,7 +1800,6 @@
       }
       ctx.restore();
 
-      // 3. Manual Text Overlays
       textLayers.forEach(layer => {
         ctx.save();
         ctx.font = `800 ${Math.round(w * 0.055)}px "${layer.font}", sans-serif`;
@@ -1792,8 +1812,7 @@
         ctx.restore();
       });
 
-      // 4. Synchronized Auto-Captions Pill (Bottom Subtitle)
-      const activeSeg = autoCaptionSegments.find(s => simTime >= s.start && simTime <= s.end);
+      const activeSeg = autoCaptionSegments.find(s => t >= s.start && t <= s.end);
       if (activeSeg && activeSeg.text) {
         ctx.save();
         const fontSize = Math.round(w * 0.044);
@@ -1819,8 +1838,25 @@
         ctx.fillText(activeSeg.text, w / 2, by + boxH / 2, w * 0.85);
         ctx.restore();
       }
+    }
 
-      // 5. Update Timeline UI
+    let lastFrameTime = performance.now();
+
+    function renderLoop(now) {
+      const dt = (now - lastFrameTime) / 1000;
+      lastFrameTime = now;
+
+      if (isPlaying) {
+        simTime += dt * playbackSpeed;
+        if (simTime >= trimEnd) {
+          simTime = trimStart;
+          if (audioEl.src) audioEl.currentTime = 0;
+        }
+        syncMediaToTime(simTime);
+      }
+
+      drawCompositeFrame(simTime);
+
       document.getElementById('time-current').innerText = formatTime(simTime);
       document.getElementById('time-total').innerText = formatTime(duration);
       document.getElementById('timeline-playhead').style.left = ((simTime / duration) * 100) + '%';
@@ -1835,7 +1871,6 @@
     }
 
     // Initialize App
-    generate3DAppIcon();
     renderBgGrid();
     renderRFMusicList();
     renderTextLayersList();
