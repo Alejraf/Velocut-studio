@@ -46,54 +46,57 @@
 </head>
 <body class="h-screen w-screen flex flex-col">
 
-  <!-- HEADER -->
-  <header class="h-14 border-b border-slate-800/80 bg-[#0c0f16] px-2.5 md:px-5 flex items-center justify-between shrink-0 z-30">
-    <div class="flex items-center gap-2">
-      <div class="relative w-8 h-8 md:w-9 md:h-9 rounded-xl overflow-hidden shadow-lg shadow-emerald-500/20 border border-emerald-400/30 shrink-0">
+  <!-- HEADER (OPTIMIZED FOR MOBILE & DESKTOP SINGLE-ROW FIT) -->
+  <header class="h-14 border-b border-slate-800/80 bg-[#0c0f16] px-2 md:px-4 flex items-center justify-between gap-1.5 shrink-0 z-30">
+    <!-- Brand + Install Trigger -->
+    <div class="flex items-center gap-1.5 shrink-0">
+      <button onclick="openInstallModal()" title="Instalar App / Logo 3D" class="relative w-8 h-8 md:w-9 md:h-9 rounded-xl overflow-hidden shadow-lg shadow-emerald-500/20 border border-emerald-400/40 shrink-0 active:scale-95 transition">
         <img id="header-logo-img" alt="VeloCut 3D Logo" class="w-full h-full object-cover" />
-      </div>
-      <div class="hidden sm:block">
+      </button>
+      <div class="hidden md:block">
         <div class="flex items-center gap-1.5">
-          <span class="font-extrabold tracking-tight text-sm md:text-base bg-gradient-to-r from-emerald-400 via-cyan-300 to-teal-200 bg-clip-text text-transparent">VeloCut</span>
+          <span class="font-extrabold tracking-tight text-base bg-gradient-to-r from-emerald-400 via-cyan-300 to-teal-200 bg-clip-text text-transparent">VeloCut</span>
           <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">3D PRO</span>
         </div>
         <p id="lbl-subtitle" class="text-[10px] text-slate-400">Video, Fotos & Música Libre</p>
       </div>
     </div>
 
-    <!-- Center Aspect Ratios -->
-    <div class="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
-      <button onclick="setAspect('9:16')" data-ratio="9:16" class="ratio-btn px-2 py-1 rounded-lg text-[11px] font-semibold bg-emerald-500 text-slate-950 transition">9:16</button>
-      <button onclick="setAspect('16:9')" data-ratio="16:9" class="ratio-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition">16:9</button>
-      <button onclick="setAspect('1:1')" data-ratio="1:1" class="ratio-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition">1:1</button>
-      <button onclick="setAspect('4:5')" data-ratio="4:5" class="ratio-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition">4:5</button>
+    <!-- Center Aspect Ratios (Compact on Mobile) -->
+    <div class="flex items-center gap-0.5 md:gap-1 bg-slate-900/90 p-0.5 md:p-1 rounded-lg md:rounded-xl border border-slate-800 shrink-0">
+      <button onclick="setAspect('9:16')" data-ratio="9:16" class="ratio-btn px-1.5 md:px-2 py-1 rounded-md md:rounded-lg text-[10px] md:text-[11px] font-semibold bg-emerald-500 text-slate-950 transition">9:16</button>
+      <button onclick="setAspect('16:9')" data-ratio="16:9" class="ratio-btn px-1.5 md:px-2 py-1 rounded-md md:rounded-lg text-[10px] md:text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition">16:9</button>
+      <button onclick="setAspect('1:1')" data-ratio="1:1" class="ratio-btn px-1.5 md:px-2 py-1 rounded-md md:rounded-lg text-[10px] md:text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition">1:1</button>
+      <button onclick="setAspect('4:5')" data-ratio="4:5" class="ratio-btn px-1.5 md:px-2 py-1 rounded-md md:rounded-lg text-[10px] md:text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition">4:5</button>
     </div>
 
-    <!-- Right Controls -->
-    <div class="flex items-center gap-1.5 md:gap-2">
-      <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-slate-900 border border-slate-700 text-[11px] font-semibold rounded-lg px-1.5 py-1.5 text-slate-200 focus:outline-none focus:border-emerald-500">
-        <option value="es">🇪🇸 ES</option>
-        <option value="pt">🇧🇷 PT</option>
-        <option value="en">🇺🇸 EN</option>
-        <option value="fr">🇫🇷 FR</option>
-        <option value="it">🇮🇹 IT</option>
+    <!-- Right Controls (Single Line on Mobile) -->
+    <div class="flex items-center gap-1 md:gap-2 shrink-0">
+      <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-slate-900 border border-slate-700 text-[10px] md:text-[11px] font-semibold rounded-lg px-1 md:px-1.5 py-1.5 text-slate-200 focus:outline-none focus:border-emerald-500">
+        <option value="es">ES</option>
+        <option value="pt">PT</option>
+        <option value="en">EN</option>
+        <option value="fr">FR</option>
+        <option value="it">IT</option>
       </select>
 
-      <button onclick="openInstallModal()" class="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-cyan-300 transition">
-        <i data-lucide="download" class="w-3.5 h-3.5"></i>
-        <span id="btn-install-label">Instalar App</span>
+      <!-- Install PWA Button (Visible on Mobile & Desktop) -->
+      <button onclick="openInstallModal()" title="Instalar App en Pantalla de Inicio" class="flex items-center gap-1 px-2 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-medium text-cyan-300 transition whitespace-nowrap">
+        <i data-lucide="download" class="w-3.5 h-3.5 shrink-0"></i>
+        <span id="btn-install-label" class="hidden sm:inline">Instalar</span>
       </button>
 
       <!-- Import Video OR Photos from Device -->
-      <label class="cursor-pointer flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-emerald-500/40 text-xs font-semibold text-white transition shadow-sm">
-        <i data-lucide="image-plus" class="w-3.5 h-3.5 text-emerald-400"></i>
-        <span id="btn-import-label">+ Video / Fotos</span>
+      <label class="cursor-pointer flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-emerald-500/40 text-[11px] md:text-xs font-semibold text-white transition shadow-sm whitespace-nowrap">
+        <i data-lucide="image-plus" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+        <span id="btn-import-label" class="hidden sm:inline">+ Video / Fotos</span>
+        <span class="sm:hidden">+ Media</span>
         <input type="file" id="media-upload" accept="video/*,image/*" multiple class="hidden" onchange="handleMediaUpload(event)" />
       </label>
 
       <!-- Direct Export Trigger -->
-      <button id="btn-top-export" onclick="triggerDirectExport()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/25 transition">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+      <button id="btn-top-export" onclick="triggerDirectExport()" class="flex items-center gap-1 px-2.5 md:px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-bold text-[11px] md:text-xs shadow-lg shadow-emerald-500/25 transition whitespace-nowrap">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i>
         <span id="btn-export-label">Exportar</span>
       </button>
     </div>
@@ -397,9 +400,12 @@
       <img id="modal-logo-img" class="w-28 h-28 mx-auto rounded-3xl shadow-2xl border border-emerald-400/40" alt="VeloCut 3D Icon" />
       <h3 class="text-lg font-extrabold text-white">Instalar VeloCut Studio</h3>
       <p class="text-xs text-slate-300 leading-relaxed">
-        Añade VeloCut Studio a tu pantalla de inicio con su ícono tridimensional Full HD o descarga el logotipo oficial.
+        Añade VeloCut Studio a tu pantalla de inicio con su ícono tridimensional Full HD (toca el menú <strong>⋮ → Añadir a pantalla de inicio</strong> en tu navegador) o descarga el logotipo oficial.
       </p>
-      <div class="flex gap-2 justify-center pt-2">
+      <div class="flex flex-wrap gap-2 justify-center pt-2">
+        <button id="btn-pwa-native-install" onclick="triggerNativePWAInstall()" class="hidden px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs">
+          Instalar Ahora en Pantalla
+        </button>
         <button onclick="download3DLogo()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">
           Descargar Logo 3D (1024px)
         </button>
@@ -432,7 +438,7 @@
     const I18N = {
       es: {
         subtitle: "Video, Fotos & Música Libre",
-        install: "Instalar App",
+        install: "Instalar",
         import: "+ Video / Fotos",
         export: "Exportar",
         split: "Dividir",
@@ -468,7 +474,7 @@
       },
       pt: {
         subtitle: "Vídeo, Fotos & Música Livre",
-        install: "Instalar App",
+        install: "Instalar",
         import: "+ Vídeo / Fotos",
         export: "Exportar",
         split: "Dividir",
@@ -504,7 +510,7 @@
       },
       en: {
         subtitle: "Video, Photos & Free Music",
-        install: "Install App",
+        install: "Install",
         import: "+ Video / Photos",
         export: "Export",
         split: "Split",
@@ -576,7 +582,7 @@
       },
       it: {
         subtitle: "Video, Foto & Musica Libera",
-        install: "Installa App",
+        install: "Installa",
         import: "+ Video / Foto",
         export: "Esporta",
         split: "Dividi",
@@ -652,9 +658,26 @@
     }
 
     // =========================================================================
-    // 3. LOGO TRIDIMENSIONAL FULL HD (1024x1024) + PWA MANIFEST
+    // 3. LOGO TRIDIMENSIONAL FULL HD (1024x1024) + PWA MANIFEST + INSTALL PROMPT
     // =========================================================================
     let logo3DDataURL = '';
+    let deferredInstallPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const btn = document.getElementById('btn-pwa-native-install');
+      if (btn) btn.classList.remove('hidden');
+    });
+
+    function triggerNativePWAInstall() {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      deferredInstallPrompt.userChoice.then(() => {
+        deferredInstallPrompt = null;
+        closeInstallModal();
+      });
+    }
 
     function generate3DAppIcon() {
       const c = document.createElement('canvas');
@@ -770,7 +793,7 @@
     const videoEl = document.getElementById('source-video');
     const audioEl = document.getElementById('source-audio');
 
-    let mediaItems = []; // { id, type: 'video'|'image', name, url, imgObj, duration }
+    let mediaItems = [];
     let activeMediaIndex = 0;
     let photoDurationSec = 3.0;
     let isPlaying = false;
@@ -1254,8 +1277,8 @@
     function setAspect(ratio) {
       document.querySelectorAll('.ratio-btn').forEach(b => {
         b.className = b.dataset.ratio === ratio
-          ? 'ratio-btn px-2 py-1 rounded-lg text-[11px] font-semibold bg-emerald-500 text-slate-950 transition'
-          : 'ratio-btn px-2 py-1 rounded-lg text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition';
+          ? 'ratio-btn px-1.5 md:px-2 py-1 rounded-md md:rounded-lg text-[10px] md:text-[11px] font-semibold bg-emerald-500 text-slate-950 transition'
+          : 'ratio-btn px-1.5 md:px-2 py-1 rounded-md md:rounded-lg text-[10px] md:text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition';
       });
       const container = document.getElementById('canvas-container');
       if (ratio === '9:16') { canvas.width = 720; canvas.height = 1280; container.style.aspectRatio = '9/16'; }
@@ -1621,7 +1644,6 @@
         if (currentItem.type === 'video' && videoEl.readyState >= 2) {
           ctx.drawImage(videoEl, vx, vy, drawW, drawH);
         } else if (currentItem.type === 'image' && currentItem.imgObj) {
-          // Ken Burns smooth 3D zoom motion for photos
           const useKB = document.getElementById('chk-kenburns').checked;
           const zoom = useKB ? 1 + Math.sin(simTime * 1.5) * 0.06 + 0.06 : 1;
           const zw = drawW * zoom;
@@ -1629,7 +1651,6 @@
           ctx.drawImage(currentItem.imgObj, vx - (zw - drawW) / 2, vy - (zh - drawH) / 2, zw, zh);
         }
       } else {
-        // Empty Stage Prompt
         const vw = w * videoScale;
         const vh = h * videoScale * 0.72;
         const vx = (w - vw) / 2;
