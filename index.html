@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
-<head><meta name="monetag" content="2b99af8aeffc285ef398214fc7eceee4">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#090b10" />
   <meta name="description" content="VeloCut Studio - Editor de video y fotos Pro con leyendas automáticas, clips musicales virales, fondos 3D/2D y suscripción Pro." />
   <title>VeloCut Studio — Editor de Video y Fotos Pro</title>
-
-  <!-- ZONA DE MONETIZACIÓN MONETAG -->
-  <!-- Pega aquí tu etiqueta oficial de Monetag si usas el SDK Rewarded Interstitial -->
-  <!-- <script src="https://alwingulla.com/88/tag.min.js" data-zone="TU_ZONE_ID" async data-cfasync="false"></script> -->
 
   <link id="dynamic-favicon" rel="icon" type="image/png" />
   <link id="dynamic-apple-icon" rel="apple-touch-icon" />
@@ -214,7 +210,6 @@
 
         <!-- TAB 2: AUTO-CAPTIONS (LEYENDAS AUTOMÁTICAS CON LÍMITE + MONETAG UNLOCK) + TEXT -->
         <div id="panel-text" class="tool-panel hidden space-y-3">
-          <!-- Auto-Captions Box -->
           <div class="p-3 rounded-xl bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/30 border border-emerald-500/30 space-y-2.5">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-1.5">
@@ -222,7 +217,7 @@
                 <span id="lbl-autocap-title" class="text-xs font-extrabold text-white">Leyendas Automáticas (IA)</span>
               </div>
               <span id="autocap-credits-badge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
-                2 / 2 usos gratis
+                2 usos disponibles
               </span>
             </div>
 
@@ -230,7 +225,6 @@
               Genera subtítulos sincronizados en tiempo real (reconocimiento de voz o guion automático dinámico).
             </p>
 
-            <!-- Action Button (Generate OR Unlock via Monetag) -->
             <div id="autocap-action-area" class="flex flex-col gap-2">
               <button id="btn-generate-autocap" onclick="runAutoCaptions()" class="w-full py-2 px-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/20 transition">
                 <i data-lucide="mic" class="w-3.5 h-3.5"></i>
@@ -244,7 +238,6 @@
               </button>
             </div>
 
-            <!-- Active Auto-Captions Timeline List -->
             <div id="autocap-segments-list" class="space-y-1 max-h-28 overflow-y-auto"></div>
           </div>
 
@@ -275,16 +268,13 @@
             <span id="active-track-badge" class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-semibold">Sin música</span>
           </div>
 
-          <!-- Category Filter: Famous Short Clips (Copyright-Free Covers/Beats) vs Full Loops -->
           <div class="flex gap-1.5">
             <button onclick="filterMusicCat('famous')" class="mus-cat-btn px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-500 text-slate-950" data-mcat="famous">🔥 Clips Famosos (15s)</button>
             <button onclick="filterMusicCat('beats')" class="mus-cat-btn px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-800 text-slate-300" data-mcat="beats">🎵 Pistas Libres</button>
           </div>
 
-          <!-- Music List -->
           <div id="rf-music-list" class="space-y-1.5"></div>
 
-          <!-- Sound Effects (SFX) -->
           <div class="pt-2 border-t border-slate-800 space-y-1.5">
             <span id="lbl-sfx-title" class="block text-[11px] font-bold uppercase text-slate-400">Efectos de Sonido (SFX Libres)</span>
             <div class="grid grid-cols-3 gap-1.5">
@@ -294,13 +284,11 @@
             </div>
           </div>
 
-          <!-- Upload Audio from Device -->
           <div class="pt-2 border-t border-slate-800 space-y-1.5">
             <label id="lbl-music-upload" class="block text-xs font-semibold text-slate-300">O sube MP3 / WAV desde tu dispositivo</label>
             <input type="file" accept="audio/*" onchange="handleAudioUpload(event)" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-emerald-400 hover:file:bg-slate-700" />
           </div>
 
-          <!-- Export Resolution (4K Unlocked with PRO) -->
           <div class="pt-2 border-t border-slate-800 space-y-1.5">
             <label id="lbl-export-res" class="block text-xs font-semibold text-slate-300">Calidad de Exportación</label>
             <select id="export-quality" onchange="checkProQuality(this)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold">
@@ -380,7 +368,7 @@
           </div>
         </div>
 
-        <!-- TAB 6: FILTERS & COLOR (INCLUDES PRO LUTS) -->
+        <!-- TAB 6: FILTERS & COLOR -->
         <div id="panel-filters" class="tool-panel hidden space-y-4">
           <div class="grid grid-cols-4 gap-1.5">
             <button onclick="setFilterPreset('none')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Original</button>
@@ -431,7 +419,7 @@
     </div>
   </footer>
 
-  <!-- VELOCUT PRO SUBSCRIPTION MODAL (MERCADO PAGO MONTHLY CHECKOUT) -->
+  <!-- VELOCUT PRO SUBSCRIPTION MODAL (MERCADO PAGO BRL R$) -->
   <div id="pro-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-[#101520] border border-amber-500/40 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative overflow-hidden">
       <div class="flex items-center justify-between">
@@ -453,23 +441,24 @@
         <li class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> <strong>Acceso Total a Clips Musicales Virales</strong></li>
       </ul>
 
-      <div class="p-3 rounded-xl bg-sky-950/40 border border-sky-500/40 flex items-center justify-between">
+      <div class="p-3.5 rounded-xl bg-sky-950/50 border border-sky-500/40 flex items-center justify-between">
         <div>
-          <div class="text-xs text-sky-300 font-bold">Plan Mensual PRO</div>
-          <div class="text-xl font-extrabold text-white">$4.99 USD <span class="text-xs font-normal text-slate-400">/ mes</span></div>
+          <div class="text-xs text-sky-300 font-bold">Plano Mensal PRO</div>
+          <div class="text-2xl font-extrabold text-white"><span id="pro-price-display">R$ 19,90</span> <span class="text-xs font-normal text-slate-400">/ mês</span></div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Pix, Cartão de Crédito ou Saldo Mercado Pago</div>
         </div>
-        <span class="text-[10px] font-bold px-2 py-1 rounded bg-sky-500/20 text-sky-300">Mercado Pago</span>
+        <span class="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-[#009ee3]/20 text-sky-300 border border-[#009ee3]/40">Mercado Pago</span>
       </div>
 
       <!-- Mercado Pago Checkout Button -->
       <button onclick="payWithMercadoPago()" class="w-full py-3 px-4 rounded-xl bg-[#009ee3] hover:bg-[#008ed0] text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-sky-500/30 transition">
         <i data-lucide="credit-card" class="w-4 h-4"></i>
-        <span>Suscribirme con Mercado Pago</span>
+        <span>Assinar com Mercado Pago (R$)</span>
       </button>
 
       <!-- Activation Code / Receipt Verification -->
       <div class="pt-2 border-t border-slate-800 space-y-2">
-        <p class="text-[11px] text-slate-400 text-center">¿Ya completaste tu pago en Mercado Pago? Ingresa tu código de activación PRO:</p>
+        <p class="text-[11px] text-slate-400 text-center">¿Ya pagaste en Mercado Pago? Ingresa tu código de activación PRO:</p>
         <div class="flex gap-2">
           <input type="text" id="pro-activation-code" placeholder="Ej: VELOPRO2026" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white uppercase focus:outline-none focus:border-amber-500" />
           <button onclick="activateProCode()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs">Activar</button>
@@ -506,24 +495,24 @@
 
   <script>
     // =========================================================================
-    // 1. CONFIGURACIÓN DE MONETIZACIÓN (MONETAG + MERCADO PAGO PRO)
+    // 1. CONFIGURACIÓN DE MONETIZACIÓN (MONETAG DIRECT LINK INTEGRADO + MERCADO PAGO)
     // =========================================================================
     const MONETAG_CONFIG = {
-      enabled: true, // Activo para desbloqueo de leyendas y exportación gratuita
-      mode: 'DIRECT_LINK', // 'SDK' (Rewarded Interstitial) o 'DIRECT_LINK' (SmartLink)
-      zoneId: 'TU_ZONE_ID',
-      directLink: 'https://tu-enlace-directo-de-monetag.com',
+      enabled: true,
+      mode: 'DIRECT_LINK',
+      zoneId: '12301967',
+      directLink: 'https://uplcm.com/4/12301967',
       waitSeconds: 5
     };
 
     const MERCADOPAGO_CONFIG = {
-      // Pega aquí tu Link de Suscripción Mensual creado en tu cuenta de Mercado Pago:
-      // (Mercado Pago -> Cobrar -> Suscripciones -> Crear plan mensual -> Copiar link)
+      monthlyPriceBRL: 'R$ 19,90',
       subscriptionUrl: 'https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=TU_PLAN_ID_AQUI',
       validActivationCodes: ['VELOPRO2026', 'VIP3D', 'MERCADOPAGOPRO']
     };
 
-    // Estado de Suscripción PRO (persistente en el dispositivo)
+    document.getElementById('pro-price-display').innerText = MERCADOPAGO_CONFIG.monthlyPriceBRL;
+
     let isProUser = localStorage.getItem('velocut_is_pro') === 'true';
 
     function updateProUI() {
@@ -662,7 +651,7 @@
     // 3. LEYENDAS AUTOMÁTICAS CON LÍMITE + DESBLOQUEO +3 VÍA MONETAG
     // =========================================================================
     let autoCaptionCredits = parseInt(localStorage.getItem('velocut_autocap_credits') || '2', 10);
-    let autoCaptionSegments = []; // { start, end, text }
+    let autoCaptionSegments = [];
 
     function updateAutoCapUI() {
       const badge = document.getElementById('autocap-credits-badge');
@@ -698,7 +687,6 @@
       }
       updateAutoCapUI();
 
-      // Generar segmentos sincronizados con la duración actual del video/fotos
       const sampleScripts = {
         es: [
           "¡Mira este increíble resultado!",
@@ -728,7 +716,6 @@
         text: txt
       }));
 
-      // Intentar reconocimiento de voz en vivo del navegador si está disponible
       const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (SpeechRec) {
         try {
@@ -774,15 +761,6 @@
         banner.classList.add('hidden');
       };
 
-      if (MONETAG_CONFIG.mode === 'SDK') {
-        const sdkFn = window['show_' + MONETAG_CONFIG.zoneId];
-        if (typeof sdkFn === 'function') {
-          sdkFn().then(() => grantThreeCredits()).catch(() => grantThreeCredits());
-          return;
-        }
-      }
-
-      // Direct Link / SmartLink Monetag Unlock (+3 Leyendas Automáticas)
       window.open(MONETAG_CONFIG.directLink, '_blank');
       banner.classList.remove('hidden');
       bannerText.innerText = t.adVerifying + ' (+3 Leyendas)';
@@ -803,14 +781,12 @@
     // 4. CLIPS CORTOS DE MÚSICAS FAMOSAS (LIBRES DE DERECHOS) & SFX
     // =========================================================================
     const FAMOUS_SHORT_CLIPS = [
-      // Clips Cortos Inspirados en Éxitos Mundiales (Arreglos Libres de Copyright - 15s)
       { id: 'fam-blinding', cat: 'famous', name: 'Blinding Synth Lights (Clip 15s)', artist: 'Estilo Weeknd • Viral Reels', bpm: 171, notes: [349.23, 349.23, 311.13, 349.23, 392.00, 261.63, 311.13] },
       { id: 'fam-shape', cat: 'famous', name: 'Tropical Marimba Pop (Clip 15s)', artist: 'Estilo Ed Sheeran • TikTok Trend', bpm: 96, notes: [277.18, 329.63, 277.18, 277.18, 329.63, 277.18, 369.99, 329.63] },
       { id: 'fam-despacito', cat: 'famous', name: 'Latino Urban Guitar (Clip 15s)', artist: 'Estilo Urbano • Fiesta Viral', bpm: 89, notes: [293.66, 220.00, 246.94, 196.00, 293.66, 329.63, 369.99] },
       { id: 'fam-badguy', cat: 'famous', name: 'Dark Bass Minimal (Clip 15s)', artist: 'Estilo Billie • Edits & Transiciones', bpm: 135, notes: [196.00, 196.00, 233.08, 196.00, 261.63, 233.08, 196.00, 174.61] },
       { id: 'fam-levitating', cat: 'famous', name: 'Nu-Disco Funk Dance (Clip 15s)', artist: 'Estilo Dua Lipa • Moda & Vlog', bpm: 103, notes: [246.94, 369.99, 329.63, 293.66, 246.94, 220.00, 246.94] },
       { id: 'fam-astronaut', cat: 'famous', name: 'Trap Phonk Drift (Clip 15s)', artist: 'Estilo Phonk • Autos & Gym', bpm: 130, notes: [164.81, 164.81, 196.00, 220.00, 246.94, 220.00, 196.00] },
-      // Pistas Libres Completas
       { id: 'none', cat: 'beats', name: 'Sin música de fondo', artist: 'Silencio', bpm: 0, notes: [] },
       { id: 'lofi', cat: 'beats', name: 'Chill Lo-Fi Study Beats', artist: '100% Libre de Copyright', bpm: 85, notes: [261.63, 329.63, 392.00, 493.88, 392.00, 329.63] },
       { id: 'epic', cat: 'beats', name: 'Cinematic Trailer Rise', artist: '100% Libre de Copyright', bpm: 95, notes: [220.00, 261.63, 329.63, 440.00, 392.00, 329.63] }
@@ -1614,7 +1590,6 @@
       if (selectedRFTrack !== 'none') startSynthLoop();
       if (audioEl.src) audioEl.play();
 
-      // Si el usuario tiene suscripción PRO activa o Monetag está apagado, exporta directo
       if (isProUser || !MONETAG_CONFIG.enabled) {
         startRealCanvasExport();
         return;
@@ -1627,26 +1602,17 @@
       banner.classList.remove('hidden');
       bannerText.innerText = t.adVerifying;
 
-      if (MONETAG_CONFIG.mode === 'SDK') {
-        const sdkFn = window['show_' + MONETAG_CONFIG.zoneId];
-        if (typeof sdkFn === 'function') {
-          sdkFn().then(() => startRealCanvasExport()).catch(() => startRealCanvasExport());
-        } else {
+      window.open(MONETAG_CONFIG.directLink, '_blank');
+      let remaining = MONETAG_CONFIG.waitSeconds;
+      bannerPct.innerText = remaining + 's';
+      const timer = setInterval(() => {
+        remaining--;
+        bannerPct.innerText = Math.max(0, remaining) + 's';
+        if (remaining <= 0) {
+          clearInterval(timer);
           startRealCanvasExport();
         }
-      } else {
-        window.open(MONETAG_CONFIG.directLink, '_blank');
-        let remaining = MONETAG_CONFIG.waitSeconds;
-        bannerPct.innerText = remaining + 's';
-        const timer = setInterval(() => {
-          remaining--;
-          bannerPct.innerText = Math.max(0, remaining) + 's';
-          if (remaining <= 0) {
-            clearInterval(timer);
-            startRealCanvasExport();
-          }
-        }, 1000);
-      }
+      }, 1000);
     }
 
     function startRealCanvasExport() {
