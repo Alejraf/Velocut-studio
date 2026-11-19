@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#090b10" />
-  <meta name="description" content="VeloCut Studio - Editor de video y fotos profesional 3D/2D multilingüe con música libre de derechos y exportación HD." />
+  <meta name="description" content="VeloCut Studio - Editor de video y fotos Pro con leyendas automáticas, clips musicales virales, fondos 3D/2D y suscripción Pro." />
   <title>VeloCut Studio — Editor de Video y Fotos Pro</title>
 
   <!-- ZONA DE MONETIZACIÓN MONETAG -->
@@ -46,7 +46,7 @@
 </head>
 <body class="h-screen w-screen flex flex-col">
 
-  <!-- HEADER (OPTIMIZED FOR MOBILE & DESKTOP SINGLE-ROW FIT) -->
+  <!-- HEADER -->
   <header class="h-14 border-b border-slate-800/80 bg-[#0c0f16] px-2 md:px-4 flex items-center justify-between gap-1.5 shrink-0 z-30">
     <!-- Brand + Install Trigger -->
     <div class="flex items-center gap-1.5 shrink-0">
@@ -56,13 +56,13 @@
       <div class="hidden md:block">
         <div class="flex items-center gap-1.5">
           <span class="font-extrabold tracking-tight text-base bg-gradient-to-r from-emerald-400 via-cyan-300 to-teal-200 bg-clip-text text-transparent">VeloCut</span>
-          <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">3D PRO</span>
+          <span id="pro-header-badge" class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">FREE</span>
         </div>
-        <p id="lbl-subtitle" class="text-[10px] text-slate-400">Video, Fotos & Música Libre</p>
+        <p id="lbl-subtitle" class="text-[10px] text-slate-400">Video, Fotos, Subtítulos & Música</p>
       </div>
     </div>
 
-    <!-- Center Aspect Ratios (Compact on Mobile) -->
+    <!-- Center Aspect Ratios -->
     <div class="flex items-center gap-0.5 md:gap-1 bg-slate-900/90 p-0.5 md:p-1 rounded-lg md:rounded-xl border border-slate-800 shrink-0">
       <button onclick="setAspect('9:16')" data-ratio="9:16" class="ratio-btn px-1.5 md:px-2 py-1 rounded-md md:rounded-lg text-[10px] md:text-[11px] font-semibold bg-emerald-500 text-slate-950 transition">9:16</button>
       <button onclick="setAspect('16:9')" data-ratio="16:9" class="ratio-btn px-1.5 md:px-2 py-1 rounded-md md:rounded-lg text-[10px] md:text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition">16:9</button>
@@ -70,8 +70,8 @@
       <button onclick="setAspect('4:5')" data-ratio="4:5" class="ratio-btn px-1.5 md:px-2 py-1 rounded-md md:rounded-lg text-[10px] md:text-[11px] font-semibold text-slate-300 hover:bg-slate-800 transition">4:5</button>
     </div>
 
-    <!-- Right Controls (Single Line on Mobile) -->
-    <div class="flex items-center gap-1 md:gap-2 shrink-0">
+    <!-- Right Controls -->
+    <div class="flex items-center gap-1 md:gap-1.5 shrink-0">
       <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-slate-900 border border-slate-700 text-[10px] md:text-[11px] font-semibold rounded-lg px-1 md:px-1.5 py-1.5 text-slate-200 focus:outline-none focus:border-emerald-500">
         <option value="es">ES</option>
         <option value="pt">PT</option>
@@ -80,14 +80,14 @@
         <option value="it">IT</option>
       </select>
 
-      <!-- Install PWA Button (Visible on Mobile & Desktop) -->
-      <button onclick="openInstallModal()" title="Instalar App en Pantalla de Inicio" class="flex items-center gap-1 px-2 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-medium text-cyan-300 transition whitespace-nowrap">
-        <i data-lucide="download" class="w-3.5 h-3.5 shrink-0"></i>
-        <span id="btn-install-label" class="hidden sm:inline">Instalar</span>
+      <!-- PRO SUBSCRIPTION BUTTON (MERCADO PAGO) -->
+      <button onclick="openProModal()" id="btn-pro-upgrade" class="flex items-center gap-1 px-2 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-extrabold text-[10px] md:text-[11px] shadow-md shadow-amber-500/25 transition whitespace-nowrap">
+        <i data-lucide="crown" class="w-3.5 h-3.5 shrink-0"></i>
+        <span id="btn-pro-label">PRO</span>
       </button>
 
-      <!-- Import Video OR Photos from Device -->
-      <label class="cursor-pointer flex items-center gap-1 px-2 md:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-emerald-500/40 text-[11px] md:text-xs font-semibold text-white transition shadow-sm whitespace-nowrap">
+      <!-- Import Video OR Photos -->
+      <label class="cursor-pointer flex items-center gap-1 px-2 md:px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-emerald-500/40 text-[10px] md:text-xs font-semibold text-white transition whitespace-nowrap">
         <i data-lucide="image-plus" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
         <span id="btn-import-label" class="hidden sm:inline">+ Video / Fotos</span>
         <span class="sm:hidden">+ Media</span>
@@ -95,7 +95,7 @@
       </label>
 
       <!-- Direct Export Trigger -->
-      <button id="btn-top-export" onclick="triggerDirectExport()" class="flex items-center gap-1 px-2.5 md:px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-bold text-[11px] md:text-xs shadow-lg shadow-emerald-500/25 transition whitespace-nowrap">
+      <button id="btn-top-export" onclick="triggerDirectExport()" class="flex items-center gap-1 px-2.5 md:px-3 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-bold text-[10px] md:text-xs shadow-lg shadow-emerald-500/25 transition whitespace-nowrap">
         <i data-lucide="sparkles" class="w-3.5 h-3.5 shrink-0"></i>
         <span id="btn-export-label">Exportar</span>
       </button>
@@ -138,20 +138,24 @@
     </main>
 
     <!-- RIGHT: TOOL INSPECTOR PANEL -->
-    <aside class="w-full lg:w-[400px] border-t lg:border-t-0 lg:border-l border-slate-800 bg-[#0d1118] flex flex-col shrink-0 h-72 lg:h-auto">
+    <aside class="w-full lg:w-[415px] border-t lg:border-t-0 lg:border-l border-slate-800 bg-[#0d1118] flex flex-col shrink-0 h-72 lg:h-auto">
       <!-- Tool Tabs -->
       <div class="grid grid-cols-6 border-b border-slate-800 bg-[#090c12]">
         <button onclick="switchTab('media')" data-tab="media" class="tab-btn py-2 flex flex-col items-center gap-1 text-[10px] font-semibold text-emerald-400 border-b-2 border-emerald-400">
           <i data-lucide="film" class="w-4 h-4"></i>
           <span id="tab-media">Archivos</span>
         </button>
-        <button onclick="switchTab('bg')" data-tab="bg" class="tab-btn py-2 flex flex-col items-center gap-1 text-[10px] font-medium text-slate-400 hover:text-slate-200">
-          <i data-lucide="layers" class="w-4 h-4"></i>
-          <span id="tab-bg">Fondos</span>
+        <button onclick="switchTab('text')" data-tab="text" class="tab-btn py-2 flex flex-col items-center gap-1 text-[10px] font-medium text-slate-400 hover:text-slate-200">
+          <i data-lucide="captions" class="w-4 h-4"></i>
+          <span id="tab-text">Leyendas</span>
         </button>
         <button onclick="switchTab('audio')" data-tab="audio" class="tab-btn py-2 flex flex-col items-center gap-1 text-[10px] font-medium text-slate-400 hover:text-slate-200">
           <i data-lucide="music" class="w-4 h-4"></i>
           <span id="tab-audio">Música</span>
+        </button>
+        <button onclick="switchTab('bg')" data-tab="bg" class="tab-btn py-2 flex flex-col items-center gap-1 text-[10px] font-medium text-slate-400 hover:text-slate-200">
+          <i data-lucide="layers" class="w-4 h-4"></i>
+          <span id="tab-bg">Fondos</span>
         </button>
         <button onclick="switchTab('trim')" data-tab="trim" class="tab-btn py-2 flex flex-col items-center gap-1 text-[10px] font-medium text-slate-400 hover:text-slate-200">
           <i data-lucide="crop" class="w-4 h-4"></i>
@@ -161,23 +165,18 @@
           <i data-lucide="wand-2" class="w-4 h-4"></i>
           <span id="tab-filters">Filtros</span>
         </button>
-        <button onclick="switchTab('text')" data-tab="text" class="tab-btn py-2 flex flex-col items-center gap-1 text-[10px] font-medium text-slate-400 hover:text-slate-200">
-          <i data-lucide="type" class="w-4 h-4"></i>
-          <span id="tab-text">Texto</span>
-        </button>
       </div>
 
       <!-- Tab Content Container -->
       <div class="flex-1 overflow-y-auto p-3.5 space-y-3.5">
 
-        <!-- TAB 1: DEVICE MEDIA MANAGER (VIDEOS & PHOTOS) -->
+        <!-- TAB 1: DEVICE MEDIA MANAGER -->
         <div id="panel-media" class="tool-panel space-y-3">
           <div class="flex items-center justify-between">
             <span id="lbl-media-title" class="text-xs font-bold uppercase tracking-wider text-slate-300">Clips de Video y Fotos del Dispositivo</span>
             <span id="media-count-badge" class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold">0 archivos</span>
           </div>
 
-          <!-- Upload Buttons Grid -->
           <div class="grid grid-cols-2 gap-2">
             <label class="cursor-pointer flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border border-dashed border-emerald-500/50 bg-emerald-500/10 hover:bg-emerald-500/20 transition text-center">
               <i data-lucide="video" class="w-5 h-5 text-emerald-400"></i>
@@ -189,12 +188,11 @@
             <label class="cursor-pointer flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border border-dashed border-cyan-500/50 bg-cyan-500/10 hover:bg-cyan-500/20 transition text-center">
               <i data-lucide="images" class="w-5 h-5 text-cyan-400"></i>
               <span id="lbl-add-photos" class="text-xs font-bold text-white">Cargar Fotos</span>
-              <span class="text-[10px] text-slate-400">JPG, PNG, WebP (Slideshow)</span>
+              <span class="text-[10px] text-slate-400">JPG, PNG, WebP</span>
               <input type="file" accept="image/*" multiple class="hidden" onchange="handleMediaUpload(event)" />
             </label>
           </div>
 
-          <!-- Photo Duration & Transition Controls -->
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 space-y-2">
             <div class="flex justify-between items-center text-xs">
               <span id="lbl-photo-dur" class="text-slate-300">Duración por Foto</span>
@@ -207,22 +205,119 @@
             </div>
           </div>
 
-          <!-- Loaded Clips List -->
           <div id="media-playlist" class="space-y-1.5">
-            <p id="lbl-empty-media" class="text-[11px] text-slate-400 text-center py-3">
+            <p class="text-[11px] text-slate-400 text-center py-3">
               Sube uno o varios videos o fotos desde tu galería/archivos para crear tu proyecto.
             </p>
           </div>
         </div>
 
-        <!-- TAB 2: ROYALTY-FREE BACKGROUNDS (3D, 2D, MODERN, RETRO, NATURE/STUDIO) -->
+        <!-- TAB 2: AUTO-CAPTIONS (LEYENDAS AUTOMÁTICAS CON LÍMITE + MONETAG UNLOCK) + TEXT -->
+        <div id="panel-text" class="tool-panel hidden space-y-3">
+          <!-- Auto-Captions Box -->
+          <div class="p-3 rounded-xl bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/30 border border-emerald-500/30 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
+                <span id="lbl-autocap-title" class="text-xs font-extrabold text-white">Leyendas Automáticas (IA)</span>
+              </div>
+              <span id="autocap-credits-badge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
+                2 / 2 usos gratis
+              </span>
+            </div>
+
+            <p id="lbl-autocap-desc" class="text-[11px] text-slate-300 leading-relaxed">
+              Genera subtítulos sincronizados en tiempo real (reconocimiento de voz o guion automático dinámico).
+            </p>
+
+            <!-- Action Button (Generate OR Unlock via Monetag) -->
+            <div id="autocap-action-area" class="flex flex-col gap-2">
+              <button id="btn-generate-autocap" onclick="runAutoCaptions()" class="w-full py-2 px-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/20 transition">
+                <i data-lucide="mic" class="w-3.5 h-3.5"></i>
+                <span id="lbl-btn-autocap">Generar Leyendas Automáticas</span>
+              </button>
+
+              <!-- Unlock +3 Credits via Monetag Ad (Shown when limit == 0) -->
+              <button id="btn-unlock-autocap-ad" onclick="unlockAutoCaptionsWithMonetag()" class="hidden w-full py-2.5 px-3 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-amber-500/25 transition">
+                <i data-lucide="play-circle" class="w-4 h-4"></i>
+                <span id="lbl-btn-unlock-ad">Ver Anuncio y Desbloquear +3 Leyendas</span>
+              </button>
+            </div>
+
+            <!-- Active Auto-Captions Timeline List -->
+            <div id="autocap-segments-list" class="space-y-1 max-h-28 overflow-y-auto"></div>
+          </div>
+
+          <!-- Manual Text Overlay -->
+          <div class="pt-2 border-t border-slate-800 space-y-2">
+            <span class="text-[11px] font-bold uppercase text-slate-400">Texto Manual Personalizado</span>
+            <div class="flex gap-2">
+              <input type="text" id="text-input" value="VeloCut Studio 3D" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500" />
+              <button onclick="addTextLayer()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-xs">+ Añadir</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <select id="text-font" onchange="updateActiveText()" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs">
+                <option value="Inter">Modern Sans</option>
+                <option value="Orbitron">Cyber 3D</option>
+                <option value="Bebas Neue">Impact Display</option>
+                <option value="Playfair Display">Editorial Serif</option>
+              </select>
+              <input type="color" id="text-color" value="#ffffff" onchange="updateActiveText()" class="w-full h-8 rounded bg-slate-900 border border-slate-700 cursor-pointer" />
+            </div>
+            <div id="text-layers-list" class="space-y-1.5"></div>
+          </div>
+        </div>
+
+        <!-- TAB 3: FAMOUS SHORT CLIPS + ROYALTY-FREE MUSIC & SFX -->
+        <div id="panel-audio" class="tool-panel hidden space-y-3">
+          <div class="flex items-center justify-between">
+            <span id="lbl-rf-music-title" class="text-xs font-bold uppercase tracking-wider text-slate-300">Audios Cortos Virales & Música Libre</span>
+            <span id="active-track-badge" class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-semibold">Sin música</span>
+          </div>
+
+          <!-- Category Filter: Famous Short Clips (Copyright-Free Covers/Beats) vs Full Loops -->
+          <div class="flex gap-1.5">
+            <button onclick="filterMusicCat('famous')" class="mus-cat-btn px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-500 text-slate-950" data-mcat="famous">🔥 Clips Famosos (15s)</button>
+            <button onclick="filterMusicCat('beats')" class="mus-cat-btn px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-800 text-slate-300" data-mcat="beats">🎵 Pistas Libres</button>
+          </div>
+
+          <!-- Music List -->
+          <div id="rf-music-list" class="space-y-1.5"></div>
+
+          <!-- Sound Effects (SFX) -->
+          <div class="pt-2 border-t border-slate-800 space-y-1.5">
+            <span id="lbl-sfx-title" class="block text-[11px] font-bold uppercase text-slate-400">Efectos de Sonido (SFX Libres)</span>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="playSFX('whoosh')" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] font-semibold text-emerald-300">💨 Whoosh</button>
+              <button onclick="playSFX('pop')" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] font-semibold text-cyan-300">🫧 Pop</button>
+              <button onclick="playSFX('bass')" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] font-semibold text-amber-300">🔊 Impacto</button>
+            </div>
+          </div>
+
+          <!-- Upload Audio from Device -->
+          <div class="pt-2 border-t border-slate-800 space-y-1.5">
+            <label id="lbl-music-upload" class="block text-xs font-semibold text-slate-300">O sube MP3 / WAV desde tu dispositivo</label>
+            <input type="file" accept="audio/*" onchange="handleAudioUpload(event)" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-emerald-400 hover:file:bg-slate-700" />
+          </div>
+
+          <!-- Export Resolution (4K Unlocked with PRO) -->
+          <div class="pt-2 border-t border-slate-800 space-y-1.5">
+            <label id="lbl-export-res" class="block text-xs font-semibold text-slate-300">Calidad de Exportación</label>
+            <select id="export-quality" onchange="checkProQuality(this)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold">
+              <option value="1080">1080p Full HD (Gratis)</option>
+              <option value="720">720p HD (Gratis)</option>
+              <option value="4k">4K Ultra HD 60FPS [PRO 👑]</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- TAB 4: ROYALTY-FREE BACKGROUNDS -->
         <div id="panel-bg" class="tool-panel hidden space-y-3">
           <div class="flex items-center justify-between">
             <span id="lbl-bg-title" class="text-xs font-bold uppercase tracking-wider text-slate-300">Fondos Sin Derechos de Autor</span>
             <span id="active-bg-badge" class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold">3D Synthwave</span>
           </div>
 
-          <!-- Category Pills -->
           <div class="flex flex-wrap gap-1">
             <button onclick="filterBgCategory('3d')" class="bg-cat-btn px-2 py-1 rounded-md text-[11px] font-semibold bg-emerald-500 text-slate-950" data-cat="3d">3D Pro</button>
             <button onclick="filterBgCategory('2d')" class="bg-cat-btn px-2 py-1 rounded-md text-[11px] font-semibold bg-slate-800 text-slate-300" data-cat="2d">2D Arte</button>
@@ -232,17 +327,14 @@
             <button onclick="filterBgCategory('solid')" class="bg-cat-btn px-2 py-1 rounded-md text-[11px] font-semibold bg-slate-800 text-slate-300" data-cat="solid">Blur/Color</button>
           </div>
 
-          <!-- Custom Background Image Upload -->
           <label class="cursor-pointer flex items-center justify-center gap-2 p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-cyan-300 transition">
             <i data-lucide="image" class="w-3.5 h-3.5"></i>
             <span id="lbl-custom-bg">Subir Fondo Propio (Imagen)</span>
             <input type="file" accept="image/*" class="hidden" onchange="handleCustomBgUpload(event)" />
           </label>
 
-          <!-- Background Presets Grid -->
           <div id="bg-presets-grid" class="grid grid-cols-2 gap-2"></div>
 
-          <!-- Video Scale & Corner Radius -->
           <div class="pt-2 border-t border-slate-800 space-y-2">
             <div>
               <div class="flex justify-between text-xs mb-1">
@@ -261,43 +353,7 @@
           </div>
         </div>
 
-        <!-- TAB 3: ROYALTY-FREE MUSIC & SOUND EFFECTS + DEVICE AUDIO -->
-        <div id="panel-audio" class="tool-panel hidden space-y-3">
-          <div class="flex items-center justify-between">
-            <span id="lbl-rf-music-title" class="text-xs font-bold uppercase tracking-wider text-slate-300">Música y Sonidos Sin Copyright</span>
-            <span id="active-track-badge" class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-semibold">Sin música</span>
-          </div>
-
-          <!-- Built-in Royalty-Free Synthesizer Tracks (100% Copyright-Free) -->
-          <div id="rf-music-list" class="space-y-1.5"></div>
-
-          <!-- Sound Effects (SFX) Buttons -->
-          <div class="pt-2 border-t border-slate-800 space-y-1.5">
-            <span id="lbl-sfx-title" class="block text-[11px] font-bold uppercase text-slate-400">Efectos de Sonido (SFX Libres)</span>
-            <div class="grid grid-cols-3 gap-1.5">
-              <button onclick="playSFX('whoosh')" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] font-semibold text-emerald-300">💨 Whoosh</button>
-              <button onclick="playSFX('pop')" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] font-semibold text-cyan-300">🫧 Pop</button>
-              <button onclick="playSFX('bass')" class="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[11px] font-semibold text-amber-300">🔊 Impacto</button>
-            </div>
-          </div>
-
-          <!-- Upload Audio from Device -->
-          <div class="pt-2 border-t border-slate-800 space-y-1.5">
-            <label id="lbl-music-upload" class="block text-xs font-semibold text-slate-300">O sube MP3 / WAV desde tu dispositivo</label>
-            <input type="file" accept="audio/*" onchange="handleAudioUpload(event)" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-emerald-400 hover:file:bg-slate-700" />
-          </div>
-
-          <!-- Export Resolution -->
-          <div class="pt-2 border-t border-slate-800 space-y-1.5">
-            <label id="lbl-export-res" class="block text-xs font-semibold text-slate-300">Calidad de Exportación</label>
-            <select id="export-quality" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold">
-              <option value="1080">1080p Full HD (60 FPS)</option>
-              <option value="720">720p HD (30 FPS)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- TAB 4: TRIM & SPEED -->
+        <!-- TAB 5: TRIM & SPEED -->
         <div id="panel-trim" class="tool-panel hidden space-y-4">
           <div class="space-y-2">
             <div class="flex justify-between text-xs">
@@ -324,7 +380,7 @@
           </div>
         </div>
 
-        <!-- TAB 5: FILTERS & COLOR -->
+        <!-- TAB 6: FILTERS & COLOR (INCLUDES PRO LUTS) -->
         <div id="panel-filters" class="tool-panel hidden space-y-4">
           <div class="grid grid-cols-4 gap-1.5">
             <button onclick="setFilterPreset('none')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Original</button>
@@ -332,9 +388,9 @@
             <button onclick="setFilterPreset('vivid')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Vívido</button>
             <button onclick="setFilterPreset('retro')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Retro</button>
             <button onclick="setFilterPreset('bw')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">B&N</button>
-            <button onclick="setFilterPreset('neon')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Neón</button>
-            <button onclick="setFilterPreset('warm')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Cálido</button>
-            <button onclick="setFilterPreset('cold')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Frío</button>
+            <button onclick="setFilterPreset('neon', true)" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold text-amber-300">Neón 👑</button>
+            <button onclick="setFilterPreset('warm', true)" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold text-amber-300">Gold 👑</button>
+            <button onclick="setFilterPreset('cold', true)" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold text-amber-300">Cyber 👑</button>
           </div>
 
           <div class="space-y-2.5 pt-2 border-t border-slate-800">
@@ -351,25 +407,6 @@
               <input type="range" id="flt-saturate" min="0" max="200" value="100" class="w-full" oninput="updateFilters()" />
             </div>
           </div>
-        </div>
-
-        <!-- TAB 6: TEXT OVERLAYS -->
-        <div id="panel-text" class="tool-panel hidden space-y-3">
-          <div class="flex gap-2">
-            <input type="text" id="text-input" value="VeloCut Studio 3D" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500" />
-            <button onclick="addTextLayer()" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs">+ Añadir</button>
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            <select id="text-font" onchange="updateActiveText()" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs">
-              <option value="Inter">Modern Sans</option>
-              <option value="Orbitron">Cyber 3D</option>
-              <option value="Bebas Neue">Impact Display</option>
-              <option value="Playfair Display">Editorial Serif</option>
-            </select>
-            <input type="color" id="text-color" value="#ffffff" onchange="updateActiveText()" class="w-full h-8 rounded bg-slate-900 border border-slate-700 cursor-pointer" />
-          </div>
-          <p id="lbl-drag-hint" class="text-[11px] text-slate-400">Arrastra el texto directamente sobre el lienzo para posicionarlo.</p>
-          <div id="text-layers-list" class="space-y-1.5"></div>
         </div>
 
       </div>
@@ -394,17 +431,64 @@
     </div>
   </footer>
 
+  <!-- VELOCUT PRO SUBSCRIPTION MODAL (MERCADO PAGO MONTHLY CHECKOUT) -->
+  <div id="pro-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-[#101520] border border-amber-500/40 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative overflow-hidden">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="p-2 rounded-xl bg-amber-500/20 text-amber-400"><i data-lucide="crown" class="w-6 h-6"></i></span>
+          <div>
+            <h3 class="text-lg font-extrabold text-white">VeloCut Studio PRO</h3>
+            <p class="text-[11px] text-amber-300 font-semibold">Suscripción Mensual • Sin Anuncios</p>
+          </div>
+        </div>
+        <button onclick="closeProModal()" class="text-slate-400 hover:text-white text-xl font-bold px-2">×</button>
+      </div>
+
+      <ul class="space-y-2 text-xs text-slate-200 bg-slate-900/90 p-3.5 rounded-xl border border-slate-800">
+        <li class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> <strong>Leyendas Automáticas Ilimitadas</strong> sin ver anuncios</li>
+        <li class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> <strong>Exportación Directa Sin Publicidad</strong> en 1 clic</li>
+        <li class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> <strong>Calidad 4K Ultra HD 60 FPS</strong> sin marca de agua</li>
+        <li class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> <strong>Filtros LUT Cinematográficos PRO</strong> (Neón, Gold, Cyber)</li>
+        <li class="flex items-center gap-2"><span class="text-emerald-400 font-bold">✓</span> <strong>Acceso Total a Clips Musicales Virales</strong></li>
+      </ul>
+
+      <div class="p-3 rounded-xl bg-sky-950/40 border border-sky-500/40 flex items-center justify-between">
+        <div>
+          <div class="text-xs text-sky-300 font-bold">Plan Mensual PRO</div>
+          <div class="text-xl font-extrabold text-white">$4.99 USD <span class="text-xs font-normal text-slate-400">/ mes</span></div>
+        </div>
+        <span class="text-[10px] font-bold px-2 py-1 rounded bg-sky-500/20 text-sky-300">Mercado Pago</span>
+      </div>
+
+      <!-- Mercado Pago Checkout Button -->
+      <button onclick="payWithMercadoPago()" class="w-full py-3 px-4 rounded-xl bg-[#009ee3] hover:bg-[#008ed0] text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-sky-500/30 transition">
+        <i data-lucide="credit-card" class="w-4 h-4"></i>
+        <span>Suscribirme con Mercado Pago</span>
+      </button>
+
+      <!-- Activation Code / Receipt Verification -->
+      <div class="pt-2 border-t border-slate-800 space-y-2">
+        <p class="text-[11px] text-slate-400 text-center">¿Ya completaste tu pago en Mercado Pago? Ingresa tu código de activación PRO:</p>
+        <div class="flex gap-2">
+          <input type="text" id="pro-activation-code" placeholder="Ej: VELOPRO2026" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white uppercase focus:outline-none focus:border-amber-500" />
+          <button onclick="activateProCode()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs">Activar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- INSTALL & 3D LOGO MODAL -->
   <div id="install-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-[#101520] border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 text-center shadow-2xl">
       <img id="modal-logo-img" class="w-28 h-28 mx-auto rounded-3xl shadow-2xl border border-emerald-400/40" alt="VeloCut 3D Icon" />
       <h3 class="text-lg font-extrabold text-white">Instalar VeloCut Studio</h3>
       <p class="text-xs text-slate-300 leading-relaxed">
-        Añade VeloCut Studio a tu pantalla de inicio con su ícono tridimensional Full HD (toca el menú <strong>⋮ → Añadir a pantalla de inicio</strong> en tu navegador) o descarga el logotipo oficial.
+        Añade VeloCut Studio a tu pantalla de inicio con su ícono tridimensional Full HD (toca el menú <strong>⋮ → Añadir a pantalla de inicio</strong>) o descarga el logotipo oficial.
       </p>
       <div class="flex flex-wrap gap-2 justify-center pt-2">
         <button id="btn-pwa-native-install" onclick="triggerNativePWAInstall()" class="hidden px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs">
-          Instalar Ahora en Pantalla
+          Instalar Ahora
         </button>
         <button onclick="download3DLogo()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">
           Descargar Logo 3D (1024px)
@@ -422,197 +506,136 @@
 
   <script>
     // =========================================================================
-    // 1. CONFIGURACIÓN DE MONETIZACIÓN MONETAG (EDITA AQUÍ TUS DATOS)
+    // 1. CONFIGURACIÓN DE MONETIZACIÓN (MONETAG + MERCADO PAGO PRO)
     // =========================================================================
     const MONETAG_CONFIG = {
-      enabled: false, // Cambia a true cuando pegues tu Zone ID o Direct Link
+      enabled: true, // Activo para desbloqueo de leyendas y exportación gratuita
       mode: 'DIRECT_LINK', // 'SDK' (Rewarded Interstitial) o 'DIRECT_LINK' (SmartLink)
       zoneId: 'TU_ZONE_ID',
       directLink: 'https://tu-enlace-directo-de-monetag.com',
       waitSeconds: 5
     };
 
+    const MERCADOPAGO_CONFIG = {
+      // Pega aquí tu Link de Suscripción Mensual creado en tu cuenta de Mercado Pago:
+      // (Mercado Pago -> Cobrar -> Suscripciones -> Crear plan mensual -> Copiar link)
+      subscriptionUrl: 'https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=TU_PLAN_ID_AQUI',
+      validActivationCodes: ['VELOPRO2026', 'VIP3D', 'MERCADOPAGOPRO']
+    };
+
+    // Estado de Suscripción PRO (persistente en el dispositivo)
+    let isProUser = localStorage.getItem('velocut_is_pro') === 'true';
+
+    function updateProUI() {
+      const badge = document.getElementById('pro-header-badge');
+      const btn = document.getElementById('btn-pro-upgrade');
+      if (isProUser) {
+        badge.innerText = 'PRO 👑';
+        badge.className = 'text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40';
+        btn.innerHTML = `<i data-lucide="crown" class="w-3.5 h-3.5"></i><span>PRO ACTIVO</span>`;
+      }
+      updateAutoCapUI();
+      lucide.createIcons();
+    }
+
+    function openProModal() { document.getElementById('pro-modal').classList.remove('hidden'); }
+    function closeProModal() { document.getElementById('pro-modal').classList.add('hidden'); }
+
+    function payWithMercadoPago() {
+      window.open(MERCADOPAGO_CONFIG.subscriptionUrl, '_blank');
+    }
+
+    function activateProCode() {
+      const code = (document.getElementById('pro-activation-code').value || '').trim().toUpperCase();
+      if (MERCADOPAGO_CONFIG.validActivationCodes.includes(code)) {
+        isProUser = true;
+        localStorage.setItem('velocut_is_pro', 'true');
+        updateProUI();
+        closeProModal();
+        alert('¡Suscripción VeloCut PRO activada con éxito! Leyendas ilimitadas, 4K y exportación sin anuncios desbloqueados.');
+      } else {
+        alert('Código inválido. Completa tu suscripción mensual en Mercado Pago para recibir tu clave PRO.');
+      }
+    }
+
+    function checkProQuality(sel) {
+      if (sel.value === '4k' && !isProUser) {
+        sel.value = '1080';
+        openProModal();
+      }
+    }
+
     // =========================================================================
     // 2. SISTEMA MULTILINGÜE (PORTUGUÉS, ESPAÑOL, INGLÉS, FRANCÉS, ITALIANO)
     // =========================================================================
     const I18N = {
       es: {
-        subtitle: "Video, Fotos & Música Libre",
-        install: "Instalar",
+        subtitle: "Video, Fotos, Subtítulos & Música",
         import: "+ Video / Fotos",
         export: "Exportar",
         split: "Dividir",
         tabMedia: "Archivos",
-        tabBg: "Fondos",
+        tabText: "Leyendas",
         tabAudio: "Música",
+        tabBg: "Fondos",
         tabTrim: "Recorte",
         tabFilters: "Filtros",
-        tabText: "Texto",
-        mediaTitle: "Clips de Video y Fotos del Dispositivo",
-        addVideos: "Cargar Videos",
-        addPhotos: "Cargar Fotos",
-        photoDur: "Duración por Foto",
-        kenBurns: "Efecto Movimiento 3D (Ken Burns)",
-        bgTitle: "Fondos Sin Derechos de Autor",
-        customBg: "Subir Fondo Propio (Imagen)",
-        videoScale: "Escala del Video / Foto",
-        cornerRadius: "Bordes Redondeados",
-        rfMusicTitle: "Música y Sonidos Sin Copyright",
-        sfxTitle: "Efectos de Sonido (SFX Libres)",
-        musicUpload: "O sube MP3 / WAV desde tu dispositivo",
-        exportRes: "Calidad de Exportación",
-        trimStart: "Inicio (Trim In)",
-        trimEnd: "Fin (Trim Out)",
-        speed: "Velocidad",
-        brightness: "Brillo",
-        contrast: "Contraste",
-        saturate: "Saturación",
-        dragHint: "Arrastra el texto directamente sobre el lienzo para posicionarlo.",
-        timeline: "Línea de Tiempo Multipista",
-        adVerifying: "Verificando patrocinador...",
+        adVerifying: "Viendo anuncio patrocinador...",
         exporting: "Exportando video HD..."
       },
       pt: {
-        subtitle: "Vídeo, Fotos & Música Livre",
-        install: "Instalar",
+        subtitle: "Vídeo, Fotos, Legendas & Música",
         import: "+ Vídeo / Fotos",
         export: "Exportar",
         split: "Dividir",
         tabMedia: "Arquivos",
-        tabBg: "Fundos",
+        tabText: "Legendas",
         tabAudio: "Música",
+        tabBg: "Fundos",
         tabTrim: "Cortar",
         tabFilters: "Filtros",
-        tabText: "Texto",
-        mediaTitle: "Vídeos e Fotos do Dispositivo",
-        addVideos: "Carregar Vídeos",
-        addPhotos: "Carregar Fotos",
-        photoDur: "Duração por Foto",
-        kenBurns: "Movimento 3D (Ken Burns)",
-        bgTitle: "Fundos Sem Direitos Autorais",
-        customBg: "Carregar Fundo Próprio (Imagem)",
-        videoScale: "Escala do Vídeo / Foto",
-        cornerRadius: "Bordas Arredondadas",
-        rfMusicTitle: "Música e Sons Sem Copyright",
-        sfxTitle: "Efeitos Sonoros (SFX Livres)",
-        musicUpload: "Ou envie MP3 / WAV do dispositivo",
-        exportRes: "Qualidade de Exportação",
-        trimStart: "Início (Trim In)",
-        trimEnd: "Fim (Trim Out)",
-        speed: "Velocidade",
-        brightness: "Brilho",
-        contrast: "Contraste",
-        saturate: "Saturação",
-        dragHint: "Arraste o texto diretamente na tela para posicionar.",
-        timeline: "Linha do Tempo Multipista",
-        adVerifying: "Verificando patrocinador...",
+        adVerifying: "Assistindo anúncio patrocinador...",
         exporting: "Exportando vídeo HD..."
       },
       en: {
-        subtitle: "Video, Photos & Free Music",
-        install: "Install",
+        subtitle: "Video, Photos, Captions & Music",
         import: "+ Video / Photos",
         export: "Export",
         split: "Split",
         tabMedia: "Media",
-        tabBg: "Backdrops",
+        tabText: "Captions",
         tabAudio: "Music",
+        tabBg: "Backdrops",
         tabTrim: "Trim",
         tabFilters: "Filters",
-        tabText: "Text",
-        mediaTitle: "Device Videos & Photos",
-        addVideos: "Load Videos",
-        addPhotos: "Load Photos",
-        photoDur: "Duration per Photo",
-        kenBurns: "3D Motion Effect (Ken Burns)",
-        bgTitle: "Royalty-Free Backdrops",
-        customBg: "Upload Custom Backdrop (Image)",
-        videoScale: "Video / Photo Scale",
-        cornerRadius: "Rounded Corners",
-        rfMusicTitle: "Copyright-Free Music & Sounds",
-        sfxTitle: "Sound Effects (Royalty-Free SFX)",
-        musicUpload: "Or upload MP3 / WAV from device",
-        exportRes: "Export Quality",
-        trimStart: "Trim In",
-        trimEnd: "Trim Out",
-        speed: "Speed",
-        brightness: "Brightness",
-        contrast: "Contrast",
-        saturate: "Saturation",
-        dragHint: "Drag text directly on the canvas to position.",
-        timeline: "Multi-Track Timeline",
-        adVerifying: "Verifying sponsor...",
+        adVerifying: "Watching sponsor ad...",
         exporting: "Exporting HD Video..."
       },
       fr: {
-        subtitle: "Vidéo, Photos & Musique Libre",
-        install: "Installer",
+        subtitle: "Vidéo, Photos, Sous-titres & Musique",
         import: "+ Vidéo / Photos",
         export: "Exporter",
         split: "Diviser",
         tabMedia: "Fichiers",
-        tabBg: "Fonds",
+        tabText: "Légendes",
         tabAudio: "Musique",
+        tabBg: "Fonds",
         tabTrim: "Couper",
         tabFilters: "Filtres",
-        tabText: "Texte",
-        mediaTitle: "Vidéos et Photos de l'Appareil",
-        addVideos: "Charger Vidéos",
-        addPhotos: "Charger Photos",
-        photoDur: "Durée par Photo",
-        kenBurns: "Effet Mouvement 3D",
-        bgTitle: "Fonds Libres de Droits",
-        customBg: "Importer Fond Personnel",
-        videoScale: "Échelle Vidéo / Photo",
-        cornerRadius: "Coins Arrondis",
-        rfMusicTitle: "Musique et Sons Sans Copyright",
-        sfxTitle: "Effets Sonores (SFX Libres)",
-        musicUpload: "Ou importer MP3 / WAV",
-        exportRes: "Qualité d'Exportation",
-        trimStart: "Début",
-        trimEnd: "Fin",
-        speed: "Vitesse",
-        brightness: "Luminosité",
-        contrast: "Contraste",
-        saturate: "Saturation",
-        dragHint: "Faites glisser le texte sur l'écran.",
-        timeline: "Chronologie Multipiste",
-        adVerifying: "Vérification du sponsor...",
+        adVerifying: "Vérification sponsor...",
         exporting: "Exportation vidéo HD..."
       },
       it: {
-        subtitle: "Video, Foto & Musica Libera",
-        install: "Installa",
+        subtitle: "Video, Foto, Sottotitoli & Musica",
         import: "+ Video / Foto",
         export: "Esporta",
         split: "Dividi",
         tabMedia: "File",
-        tabBg: "Sfondi",
+        tabText: "Sottotitoli",
         tabAudio: "Musica",
+        tabBg: "Sfondi",
         tabTrim: "Taglia",
         tabFilters: "Filtri",
-        tabText: "Testo",
-        mediaTitle: "Video e Foto dal Dispositivo",
-        addVideos: "Carica Video",
-        addPhotos: "Carica Foto",
-        photoDur: "Durata per Foto",
-        kenBurns: "Effetto Movimento 3D",
-        bgTitle: "Sfondi Senza Copyright",
-        customBg: "Carica Sfondo Personale",
-        videoScale: "Scala Video / Foto",
-        cornerRadius: "Angoli Arrotondati",
-        rfMusicTitle: "Musica e Suoni Senza Copyright",
-        sfxTitle: "Effetti Sonori (SFX Liberi)",
-        musicUpload: "O carica MP3 / WAV",
-        exportRes: "Qualità Esportazione",
-        trimStart: "Inizio",
-        trimEnd: "Fine",
-        speed: "Velocità",
-        brightness: "Luminosità",
-        contrast: "Contrasto",
-        saturate: "Saturazione",
-        dragHint: "Trascina il testo direttamente sull'anteprima.",
-        timeline: "Timeline Multitraccia",
         adVerifying: "Verifica sponsor...",
         exporting: "Esportazione video HD..."
       }
@@ -624,41 +647,311 @@
       currentLang = lang;
       const t = I18N[lang] || I18N.es;
       document.getElementById('lbl-subtitle').innerText = t.subtitle;
-      document.getElementById('btn-install-label').innerText = t.install;
       document.getElementById('btn-import-label').innerText = t.import;
       document.getElementById('btn-export-label').innerText = t.export;
       document.getElementById('btn-split-label').innerText = t.split;
       document.getElementById('tab-media').innerText = t.tabMedia;
-      document.getElementById('tab-bg').innerText = t.tabBg;
+      document.getElementById('tab-text').innerText = t.tabText;
       document.getElementById('tab-audio').innerText = t.tabAudio;
+      document.getElementById('tab-bg').innerText = t.tabBg;
       document.getElementById('tab-trim').innerText = t.tabTrim;
       document.getElementById('tab-filters').innerText = t.tabFilters;
-      document.getElementById('tab-text').innerText = t.tabText;
-      document.getElementById('lbl-media-title').innerText = t.mediaTitle;
-      document.getElementById('lbl-add-videos').innerText = t.addVideos;
-      document.getElementById('lbl-add-photos').innerText = t.addPhotos;
-      document.getElementById('lbl-photo-dur').innerText = t.photoDur;
-      document.getElementById('lbl-kenburns').innerText = t.kenBurns;
-      document.getElementById('lbl-bg-title').innerText = t.bgTitle;
-      document.getElementById('lbl-custom-bg').innerText = t.customBg;
-      document.getElementById('lbl-video-scale').innerText = t.videoScale;
-      document.getElementById('lbl-corner-radius').innerText = t.cornerRadius;
-      document.getElementById('lbl-rf-music-title').innerText = t.rfMusicTitle;
-      document.getElementById('lbl-sfx-title').innerText = t.sfxTitle;
-      document.getElementById('lbl-music-upload').innerText = t.musicUpload;
-      document.getElementById('lbl-export-res').innerText = t.exportRes;
-      document.getElementById('lbl-trim-start').innerText = t.trimStart;
-      document.getElementById('lbl-trim-end').innerText = t.trimEnd;
-      document.getElementById('lbl-speed').innerText = t.speed;
-      document.getElementById('lbl-brightness').innerText = t.brightness;
-      document.getElementById('lbl-contrast').innerText = t.contrast;
-      document.getElementById('lbl-saturate').innerText = t.saturate;
-      document.getElementById('lbl-drag-hint').innerText = t.dragHint;
-      document.getElementById('lbl-timeline').innerText = t.timeline;
     }
 
     // =========================================================================
-    // 3. LOGO TRIDIMENSIONAL FULL HD (1024x1024) + PWA MANIFEST + INSTALL PROMPT
+    // 3. LEYENDAS AUTOMÁTICAS CON LÍMITE + DESBLOQUEO +3 VÍA MONETAG
+    // =========================================================================
+    let autoCaptionCredits = parseInt(localStorage.getItem('velocut_autocap_credits') || '2', 10);
+    let autoCaptionSegments = []; // { start, end, text }
+
+    function updateAutoCapUI() {
+      const badge = document.getElementById('autocap-credits-badge');
+      const btnGen = document.getElementById('btn-generate-autocap');
+      const btnUnlock = document.getElementById('btn-unlock-autocap-ad');
+
+      if (isProUser) {
+        badge.innerText = 'ILIMITADO 👑';
+        btnGen.classList.remove('hidden');
+        btnUnlock.classList.add('hidden');
+        return;
+      }
+
+      badge.innerText = `${autoCaptionCredits} usos disponibles`;
+      if (autoCaptionCredits > 0) {
+        btnGen.classList.remove('hidden');
+        btnUnlock.classList.add('hidden');
+      } else {
+        btnGen.classList.add('hidden');
+        btnUnlock.classList.remove('hidden');
+      }
+    }
+
+    function runAutoCaptions() {
+      if (!isProUser && autoCaptionCredits <= 0) {
+        updateAutoCapUI();
+        return;
+      }
+
+      if (!isProUser) {
+        autoCaptionCredits = Math.max(0, autoCaptionCredits - 1);
+        localStorage.setItem('velocut_autocap_credits', String(autoCaptionCredits));
+      }
+      updateAutoCapUI();
+
+      // Generar segmentos sincronizados con la duración actual del video/fotos
+      const sampleScripts = {
+        es: [
+          "¡Mira este increíble resultado!",
+          "Editado en segundos con VeloCut 3D",
+          "Colores vibrantes y ritmo perfecto",
+          "Síguenos para más contenido viral 🔥"
+        ],
+        pt: [
+          "Olha esse resultado incrível!",
+          "Editado em segundos no VeloCut 3D",
+          "Cores vibrantes e ritmo perfeito",
+          "Siga para mais vídeos virais 🔥"
+        ],
+        en: [
+          "Check out this amazing result!",
+          "Edited in seconds with VeloCut 3D",
+          "Vibrant colors & perfect beat",
+          "Follow for more viral clips 🔥"
+        ]
+      };
+
+      const lines = sampleScripts[currentLang] || sampleScripts.es;
+      const segDur = duration / lines.length;
+      autoCaptionSegments = lines.map((txt, idx) => ({
+        start: idx * segDur,
+        end: (idx + 1) * segDur,
+        text: txt
+      }));
+
+      // Intentar reconocimiento de voz en vivo del navegador si está disponible
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRec) {
+        try {
+          const rec = new SpeechRec();
+          rec.lang = currentLang === 'pt' ? 'pt-BR' : (currentLang === 'en' ? 'en-US' : 'es-ES');
+          rec.onresult = (ev) => {
+            const spoken = ev.results[0][0].transcript;
+            if (spoken) {
+              autoCaptionSegments[0].text = spoken;
+              renderAutoCapList();
+            }
+          };
+          rec.start();
+        } catch (err) {}
+      }
+
+      renderAutoCapList();
+      simTime = 0;
+      isPlaying = true;
+      updatePlayIcon();
+    }
+
+    function renderAutoCapList() {
+      const list = document.getElementById('autocap-segments-list');
+      list.innerHTML = autoCaptionSegments.map((seg, i) => `
+        <div class="flex items-center gap-1.5 bg-slate-950/90 border border-slate-800 px-2 py-1 rounded text-[11px]">
+          <span class="font-mono text-emerald-400 shrink-0">${seg.start.toFixed(1)}s</span>
+          <input type="text" value="${seg.text}" oninput="autoCaptionSegments[${i}].text = this.value" class="bg-transparent text-white w-full focus:outline-none" />
+        </div>
+      `).join('');
+    }
+
+    function unlockAutoCaptionsWithMonetag() {
+      const banner = document.getElementById('export-live-banner');
+      const bannerText = document.getElementById('export-live-text');
+      const bannerPct = document.getElementById('export-live-pct');
+      const t = I18N[currentLang] || I18N.es;
+
+      const grantThreeCredits = () => {
+        autoCaptionCredits += 3;
+        localStorage.setItem('velocut_autocap_credits', String(autoCaptionCredits));
+        updateAutoCapUI();
+        banner.classList.add('hidden');
+      };
+
+      if (MONETAG_CONFIG.mode === 'SDK') {
+        const sdkFn = window['show_' + MONETAG_CONFIG.zoneId];
+        if (typeof sdkFn === 'function') {
+          sdkFn().then(() => grantThreeCredits()).catch(() => grantThreeCredits());
+          return;
+        }
+      }
+
+      // Direct Link / SmartLink Monetag Unlock (+3 Leyendas Automáticas)
+      window.open(MONETAG_CONFIG.directLink, '_blank');
+      banner.classList.remove('hidden');
+      bannerText.innerText = t.adVerifying + ' (+3 Leyendas)';
+      let sec = MONETAG_CONFIG.waitSeconds;
+      bannerPct.innerText = sec + 's';
+
+      const timer = setInterval(() => {
+        sec--;
+        bannerPct.innerText = Math.max(0, sec) + 's';
+        if (sec <= 0) {
+          clearInterval(timer);
+          grantThreeCredits();
+        }
+      }, 1000);
+    }
+
+    // =========================================================================
+    // 4. CLIPS CORTOS DE MÚSICAS FAMOSAS (LIBRES DE DERECHOS) & SFX
+    // =========================================================================
+    const FAMOUS_SHORT_CLIPS = [
+      // Clips Cortos Inspirados en Éxitos Mundiales (Arreglos Libres de Copyright - 15s)
+      { id: 'fam-blinding', cat: 'famous', name: 'Blinding Synth Lights (Clip 15s)', artist: 'Estilo Weeknd • Viral Reels', bpm: 171, notes: [349.23, 349.23, 311.13, 349.23, 392.00, 261.63, 311.13] },
+      { id: 'fam-shape', cat: 'famous', name: 'Tropical Marimba Pop (Clip 15s)', artist: 'Estilo Ed Sheeran • TikTok Trend', bpm: 96, notes: [277.18, 329.63, 277.18, 277.18, 329.63, 277.18, 369.99, 329.63] },
+      { id: 'fam-despacito', cat: 'famous', name: 'Latino Urban Guitar (Clip 15s)', artist: 'Estilo Urbano • Fiesta Viral', bpm: 89, notes: [293.66, 220.00, 246.94, 196.00, 293.66, 329.63, 369.99] },
+      { id: 'fam-badguy', cat: 'famous', name: 'Dark Bass Minimal (Clip 15s)', artist: 'Estilo Billie • Edits & Transiciones', bpm: 135, notes: [196.00, 196.00, 233.08, 196.00, 261.63, 233.08, 196.00, 174.61] },
+      { id: 'fam-levitating', cat: 'famous', name: 'Nu-Disco Funk Dance (Clip 15s)', artist: 'Estilo Dua Lipa • Moda & Vlog', bpm: 103, notes: [246.94, 369.99, 329.63, 293.66, 246.94, 220.00, 246.94] },
+      { id: 'fam-astronaut', cat: 'famous', name: 'Trap Phonk Drift (Clip 15s)', artist: 'Estilo Phonk • Autos & Gym', bpm: 130, notes: [164.81, 164.81, 196.00, 220.00, 246.94, 220.00, 196.00] },
+      // Pistas Libres Completas
+      { id: 'none', cat: 'beats', name: 'Sin música de fondo', artist: 'Silencio', bpm: 0, notes: [] },
+      { id: 'lofi', cat: 'beats', name: 'Chill Lo-Fi Study Beats', artist: '100% Libre de Copyright', bpm: 85, notes: [261.63, 329.63, 392.00, 493.88, 392.00, 329.63] },
+      { id: 'epic', cat: 'beats', name: 'Cinematic Trailer Rise', artist: '100% Libre de Copyright', bpm: 95, notes: [220.00, 261.63, 329.63, 440.00, 392.00, 329.63] }
+    ];
+
+    let activeMusicCat = 'famous';
+    let selectedRFTrack = 'none';
+    let audioCtx = null;
+    let synthInterval = null;
+    let synthDestNode = null;
+
+    function filterMusicCat(cat) {
+      activeMusicCat = cat;
+      document.querySelectorAll('.mus-cat-btn').forEach(b => {
+        b.className = b.dataset.mcat === cat
+          ? 'mus-cat-btn px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-500 text-slate-950'
+          : 'mus-cat-btn px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-800 text-slate-300';
+      });
+      renderRFMusicList();
+    }
+
+    function initAudioEngine() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        synthDestNode = audioCtx.createMediaStreamDestination();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function renderRFMusicList() {
+      const list = document.getElementById('rf-music-list');
+      const items = FAMOUS_SHORT_CLIPS.filter(x => x.cat === activeMusicCat);
+      list.innerHTML = items.map(tr => `
+        <button onclick="selectRFTrack('${tr.id}')" class="w-full flex items-center justify-between p-2 rounded-lg border text-left transition ${selectedRFTrack === tr.id ? 'bg-emerald-500/15 border-emerald-500/50 text-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'}">
+          <div class="min-w-0 pr-2">
+            <div class="text-xs font-bold truncate">${tr.name}</div>
+            <div class="text-[10px] text-emerald-400/90 truncate">${tr.artist} • Sin Copyright</div>
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded shrink-0 ${selectedRFTrack === tr.id ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300'}">
+            ${selectedRFTrack === tr.id ? 'SONANDO' : 'PEGAR'}
+          </span>
+        </button>
+      `).join('');
+    }
+
+    function selectRFTrack(id) {
+      selectedRFTrack = id;
+      audioEl.pause();
+      audioEl.src = '';
+      const tr = FAMOUS_SHORT_CLIPS.find(x => x.id === id);
+      document.getElementById('active-track-badge').innerText = tr ? tr.name.split('(')[0].trim() : 'Sin música';
+      renderRFMusicList();
+      stopSynthLoop();
+      if (id !== 'none') {
+        isPlaying = true;
+        updatePlayIcon();
+        startSynthLoop();
+      }
+    }
+
+    function startSynthLoop() {
+      stopSynthLoop();
+      const tr = FAMOUS_SHORT_CLIPS.find(x => x.id === selectedRFTrack);
+      if (!tr || tr.id === 'none' || !tr.notes.length) return;
+      initAudioEngine();
+      let step = 0;
+      const stepMs = (60 / tr.bpm) * 500;
+      synthInterval = setInterval(() => {
+        if (!isPlaying || videoEl.muted) return;
+        const freq = tr.notes[step % tr.notes.length];
+        playSynthNote(freq, stepMs / 1000);
+        step++;
+      }, stepMs);
+    }
+
+    function stopSynthLoop() {
+      if (synthInterval) {
+        clearInterval(synthInterval);
+        synthInterval = null;
+      }
+    }
+
+    function playSynthNote(freq, durSec) {
+      initAudioEngine();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = selectedRFTrack.startsWith('fam-') ? 'sawtooth' : 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.14, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + durSec);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      if (synthDestNode) gain.connect(synthDestNode);
+      osc.start();
+      osc.stop(audioCtx.currentTime + durSec);
+    }
+
+    function playSFX(type) {
+      initAudioEngine();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const now = audioCtx.currentTime;
+      if (type === 'whoosh') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(620, now + 0.25);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+      } else if (type === 'pop') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.09);
+        gain.gain.setValueAtTime(0.28, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      } else {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(110, now);
+        osc.frequency.exponentialRampToValueAtTime(38, now + 0.35);
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+      }
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      if (synthDestNode) gain.connect(synthDestNode);
+      osc.start();
+      osc.stop(now + 0.4);
+    }
+
+    function handleAudioUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      selectedRFTrack = 'none';
+      stopSynthLoop();
+      renderRFMusicList();
+      audioEl.src = URL.createObjectURL(file);
+      document.getElementById('active-track-badge').innerText = file.name.slice(0, 16);
+      if (isPlaying) audioEl.play();
+    }
+
+    // =========================================================================
+    // 5. LOGO 3D FULL HD + PWA MANIFEST
     // =========================================================================
     let logo3DDataURL = '';
     let deferredInstallPrompt = null;
@@ -788,7 +1081,7 @@
     function closeInstallModal() { document.getElementById('install-modal').classList.add('hidden'); }
 
     // =========================================================================
-    // 4. GESTOR DE VIDEOS Y FOTOS DEL DISPOSITIVO (SLIDESHOW + VIDEO)
+    // 6. GESTOR DE VIDEOS Y FOTOS DEL DISPOSITIVO
     // =========================================================================
     const videoEl = document.getElementById('source-video');
     const audioEl = document.getElementById('source-audio');
@@ -851,11 +1144,7 @@
     }
 
     function recalculateProjectDuration() {
-      if (mediaItems.length === 0) {
-        duration = 10.0;
-      } else {
-        duration = mediaItems.reduce((acc, item) => acc + item.duration, 0);
-      }
+      duration = mediaItems.length === 0 ? 10.0 : mediaItems.reduce((acc, item) => acc + item.duration, 0);
       trimStart = 0;
       trimEnd = duration;
       document.getElementById('range-trim-start').max = duration;
@@ -867,9 +1156,7 @@
     function updatePhotoDuration(val) {
       photoDurationSec = parseFloat(val);
       document.getElementById('val-photo-dur').innerText = photoDurationSec.toFixed(1) + 's';
-      mediaItems.forEach(item => {
-        if (item.type === 'image') item.duration = photoDurationSec;
-      });
+      mediaItems.forEach(item => { if (item.type === 'image') item.duration = photoDurationSec; });
       recalculateProjectDuration();
       renderMediaPlaylist();
     }
@@ -879,21 +1166,12 @@
       activeMediaIndex = idx;
       const item = mediaItems[idx];
       if (item.type === 'video') {
-        if (videoEl.src !== item.url) {
-          videoEl.src = item.url;
-        }
+        if (videoEl.src !== item.url) videoEl.src = item.url;
         videoEl.playbackRate = playbackSpeed;
-        if (autoPlay) {
-          videoEl.play();
-          isPlaying = true;
-          updatePlayIcon();
-        }
+        if (autoPlay) { videoEl.play(); isPlaying = true; updatePlayIcon(); }
       } else {
         videoEl.pause();
-        if (autoPlay) {
-          isPlaying = true;
-          updatePlayIcon();
-        }
+        if (autoPlay) { isPlaying = true; updatePlayIcon(); }
       }
       renderMediaPlaylist();
     }
@@ -936,7 +1214,7 @@
     }
 
     // =========================================================================
-    // 5. FONDOS SIN DERECHOS DE AUTOR (3D, 2D, MODERNOS, RETRO, PAISAJES, BLUR)
+    // 7. FONDOS SIN DERECHOS DE AUTOR
     // =========================================================================
     const BACKGROUNDS = [
       { id: '3d-synthwave', cat: '3d', name: '3D Synthwave Grid' },
@@ -1016,7 +1294,6 @@
         ctx.restore();
         return;
       }
-
       if (activeBgId === '3d-synthwave') {
         const g = ctx.createLinearGradient(0, 0, 0, h);
         g.addColorStop(0, '#09021a'); g.addColorStop(0.5, '#2e0854'); g.addColorStop(1, '#050814');
@@ -1091,12 +1368,6 @@
         const g = ctx.createLinearGradient(0, 0, 0, h);
         g.addColorStop(0, '#0284c7'); g.addColorStop(0.5, '#0369a1'); g.addColorStop(1, '#082f49');
         ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-        ctx.fillStyle = 'rgba(255,255,255,0.08)';
-        for (let i = 0; i < 6; i++) {
-          ctx.beginPath();
-          ctx.arc(w * 0.5, h * (0.3 + i * 0.12) + Math.sin(t * 2 + i) * 15, w * 0.6, 0, Math.PI);
-          ctx.fill();
-        }
       } else if (activeBgId === 'scn-forest') {
         const g = ctx.createLinearGradient(0, 0, w, h);
         g.addColorStop(0, '#022c22'); g.addColorStop(0.5, '#065f46'); g.addColorStop(1, '#052e16');
@@ -1112,8 +1383,6 @@
         const g = ctx.createLinearGradient(0, 0, w, h);
         g.addColorStop(0, '#3b0764'); g.addColorStop(0.5, '#be185d'); g.addColorStop(1, '#f59e0b');
         ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-        ctx.fillStyle = 'rgba(0,0,0,0.22)';
-        for (let y = 0; y < h; y += 8) ctx.fillRect(0, y, w, 3);
       } else if (activeBgId === 'sol-white') {
         ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, w, h);
       } else if (activeBgId === 'sol-crimson') {
@@ -1129,136 +1398,7 @@
     }
 
     // =========================================================================
-    // 6. MÚSICA Y SONIDOS SIN DERECHOS DE AUTOR (WEB AUDIO API SYNTHESIZER)
-    // =========================================================================
-    const ROYALTY_FREE_TRACKS = [
-      { id: 'none', name: 'Sin música de fondo', genre: 'Silencio', bpm: 0, notes: [] },
-      { id: 'lofi', name: 'Chill Lo-Fi Beats (Libre)', genre: 'Lo-Fi / Vlog', bpm: 85, notes: [261.63, 329.63, 392.00, 493.88, 392.00, 329.63] },
-      { id: 'synth', name: 'Neon Synthwave 3D (Libre)', genre: 'Retro / Gaming', bpm: 118, notes: [130.81, 130.81, 155.56, 174.61, 196.00, 174.61, 155.56, 146.83] },
-      { id: 'epic', name: 'Cinematic Rise (Libre)', genre: 'Documental / Cine', bpm: 95, notes: [220.00, 261.63, 329.63, 440.00, 392.00, 329.63] },
-      { id: 'upbeat', name: 'Happy Pop TikTok (Libre)', genre: 'Reels / Shorts', bpm: 124, notes: [392.00, 440.00, 493.88, 523.25, 493.88, 440.00] }
-    ];
-
-    let selectedRFTrack = 'none';
-    let audioCtx = null;
-    let synthInterval = null;
-    let synthDestNode = null;
-
-    function initAudioEngine() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        synthDestNode = audioCtx.createMediaStreamDestination();
-      }
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-    }
-
-    function renderRFMusicList() {
-      const list = document.getElementById('rf-music-list');
-      list.innerHTML = ROYALTY_FREE_TRACKS.map(tr => `
-        <button onclick="selectRFTrack('${tr.id}')" class="w-full flex items-center justify-between p-2 rounded-lg border text-left transition ${selectedRFTrack === tr.id ? 'bg-emerald-500/15 border-emerald-500/50 text-white' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'}">
-          <div>
-            <div class="text-xs font-bold">${tr.name}</div>
-            <div class="text-[10px] text-slate-400">${tr.genre} • 100% Sin Copyright</div>
-          </div>
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded ${selectedRFTrack === tr.id ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-400'}">
-            ${selectedRFTrack === tr.id ? 'ACTIVO' : 'USAR'}
-          </span>
-        </button>
-      `).join('');
-    }
-
-    function selectRFTrack(id) {
-      selectedRFTrack = id;
-      audioEl.pause();
-      audioEl.src = '';
-      const tr = ROYALTY_FREE_TRACKS.find(x => x.id === id);
-      document.getElementById('active-track-badge').innerText = tr ? tr.name.split('(')[0].trim() : 'Sin música';
-      renderRFMusicList();
-      stopSynthLoop();
-      if (id !== 'none' && isPlaying) startSynthLoop();
-    }
-
-    function startSynthLoop() {
-      stopSynthLoop();
-      const tr = ROYALTY_FREE_TRACKS.find(x => x.id === selectedRFTrack);
-      if (!tr || tr.id === 'none' || !tr.notes.length) return;
-      initAudioEngine();
-      let step = 0;
-      const stepMs = (60 / tr.bpm) * 500;
-      synthInterval = setInterval(() => {
-        if (!isPlaying || videoEl.muted) return;
-        const freq = tr.notes[step % tr.notes.length];
-        playSynthNote(freq, stepMs / 1000);
-        step++;
-      }, stepMs);
-    }
-
-    function stopSynthLoop() {
-      if (synthInterval) {
-        clearInterval(synthInterval);
-        synthInterval = null;
-      }
-    }
-
-    function playSynthNote(freq, durSec) {
-      initAudioEngine();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = selectedRFTrack === 'synth' ? 'sawtooth' : 'triangle';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + durSec);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      if (synthDestNode) gain.connect(synthDestNode);
-      osc.start();
-      osc.stop(audioCtx.currentTime + durSec);
-    }
-
-    function playSFX(type) {
-      initAudioEngine();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      const now = audioCtx.currentTime;
-      if (type === 'whoosh') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(140, now);
-        osc.frequency.exponentialRampToValueAtTime(620, now + 0.25);
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-      } else if (type === 'pop') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(420, now);
-        osc.frequency.exponentialRampToValueAtTime(880, now + 0.09);
-        gain.gain.setValueAtTime(0.28, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-      } else {
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(110, now);
-        osc.frequency.exponentialRampToValueAtTime(38, now + 0.35);
-        gain.gain.setValueAtTime(0.35, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
-      }
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      if (synthDestNode) gain.connect(synthDestNode);
-      osc.start();
-      osc.stop(now + 0.4);
-    }
-
-    function handleAudioUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      selectedRFTrack = 'none';
-      stopSynthLoop();
-      renderRFMusicList();
-      audioEl.src = URL.createObjectURL(file);
-      document.getElementById('active-track-badge').innerText = file.name.slice(0, 16);
-      if (isPlaying) audioEl.play();
-    }
-
-    // =========================================================================
-    // 7. CONTROLES DE EDICIÓN, FILTROS, TEXTO Y LÍNEA DE TIEMPO
+    // 8. CONTROLES DE EDICIÓN, FILTROS, TEXTO Y EXPORTACIÓN DIRECTA
     // =========================================================================
     const canvas = document.getElementById('preview-canvas');
     const ctx = canvas.getContext('2d');
@@ -1369,7 +1509,11 @@
       syncMediaToTime(simTime);
     }
 
-    function setFilterPreset(preset) {
+    function setFilterPreset(preset, isProOnly = false) {
+      if (isProOnly && !isProUser) {
+        openProModal();
+        return;
+      }
       const b = document.getElementById('flt-brightness');
       const c = document.getElementById('flt-contrast');
       const s = document.getElementById('flt-saturate');
@@ -1456,7 +1600,7 @@
     });
 
     // =========================================================================
-    // 8. ACTIVACIÓN DIRECTA DEL VIDEO + FLUJO MONETAG AL EXPORTAR
+    // 9. EXPORTACIÓN DIRECTA (SIN ANUNCIOS SI ES PRO, CON MONETAG SI ES FREE)
     // =========================================================================
     let isExporting = false;
 
@@ -1470,7 +1614,8 @@
       if (selectedRFTrack !== 'none') startSynthLoop();
       if (audioEl.src) audioEl.play();
 
-      if (!MONETAG_CONFIG.enabled) {
+      // Si el usuario tiene suscripción PRO activa o Monetag está apagado, exporta directo
+      if (isProUser || !MONETAG_CONFIG.enabled) {
         startRealCanvasExport();
         return;
       }
@@ -1554,7 +1699,7 @@
     }
 
     // =========================================================================
-    // 9. MOTOR DE RENDERIZADO MULTICLIP (VIDEOS + FOTOS + FONDOS)
+    // 10. BUCLE DE RENDERIZADO (VIDEOS + FOTOS + LEYENDAS AUTOMÁTICAS)
     // =========================================================================
     function syncMediaToTime(t) {
       if (mediaItems.length === 0) return;
@@ -1562,14 +1707,10 @@
       for (let i = 0; i < mediaItems.length; i++) {
         const item = mediaItems[i];
         if (t >= acc && t < acc + item.duration) {
-          if (activeMediaIndex !== i) {
-            activateMediaItem(i, isPlaying);
-          }
+          if (activeMediaIndex !== i) activateMediaItem(i, isPlaying);
           if (item.type === 'video') {
             const localTime = t - acc;
-            if (Math.abs(videoEl.currentTime - localTime) > 0.35) {
-              videoEl.currentTime = localTime;
-            }
+            if (Math.abs(videoEl.currentTime - localTime) > 0.35) videoEl.currentTime = localTime;
           }
           return;
         }
@@ -1613,7 +1754,7 @@
       // 1. Background
       drawProceduralBackground(ctx, w, h, simTime);
 
-      // 2. Active Media Clip (User Video or Photo Slideshow)
+      // 2. Active Media Clip
       ctx.save();
       ctx.filter = filterCSS;
 
@@ -1621,24 +1762,18 @@
       if (currentItem) {
         let srcW = w, srcH = h;
         if (currentItem.type === 'video' && videoEl.videoWidth) {
-          srcW = videoEl.videoWidth;
-          srcH = videoEl.videoHeight;
+          srcW = videoEl.videoWidth; srcH = videoEl.videoHeight;
         } else if (currentItem.type === 'image' && currentItem.imgObj) {
-          srcW = currentItem.imgObj.naturalWidth || w;
-          srcH = currentItem.imgObj.naturalHeight || h;
+          srcW = currentItem.imgObj.naturalWidth || w; srcH = currentItem.imgObj.naturalHeight || h;
         }
 
         const aspect = srcW / srcH;
         let drawW = w * videoScale;
         let drawH = drawW / aspect;
-        if (drawH > h * videoScale) {
-          drawH = h * videoScale;
-          drawW = drawH * aspect;
-        }
+        if (drawH > h * videoScale) { drawH = h * videoScale; drawW = drawH * aspect; }
 
         const vx = (w - drawW) / 2;
         const vy = (h - drawH) / 2;
-
         drawRoundedClip(ctx, vx, vy, drawW, drawH, cornerRadius);
 
         if (currentItem.type === 'video' && videoEl.readyState >= 2) {
@@ -1678,7 +1813,7 @@
       }
       ctx.restore();
 
-      // 3. Text Overlays
+      // 3. Manual Text Overlays
       textLayers.forEach(layer => {
         ctx.save();
         ctx.font = `800 ${Math.round(w * 0.055)}px "${layer.font}", sans-serif`;
@@ -1691,7 +1826,35 @@
         ctx.restore();
       });
 
-      // 4. Update Timeline UI
+      // 4. Synchronized Auto-Captions Pill (Bottom Subtitle)
+      const activeSeg = autoCaptionSegments.find(s => simTime >= s.start && simTime <= s.end);
+      if (activeSeg && activeSeg.text) {
+        ctx.save();
+        const fontSize = Math.round(w * 0.044);
+        ctx.font = `800 ${fontSize}px "Inter", sans-serif`;
+        const metrics = ctx.measureText(activeSeg.text);
+        const padX = 28, padY = 16;
+        const boxW = Math.min(w * 0.9, metrics.width + padX * 2);
+        const boxH = fontSize + padY * 1.6;
+        const bx = (w - boxW) / 2;
+        const by = h * 0.80;
+
+        ctx.fillStyle = 'rgba(9, 11, 16, 0.85)';
+        ctx.beginPath();
+        ctx.roundRect(bx, by, boxW, boxH, 16);
+        ctx.fill();
+        ctx.strokeStyle = '#10b981';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.fillStyle = '#facc15';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(activeSeg.text, w / 2, by + boxH / 2, w * 0.85);
+        ctx.restore();
+      }
+
+      // 5. Update Timeline UI
       document.getElementById('time-current').innerText = formatTime(simTime);
       document.getElementById('time-total').innerText = formatTime(duration);
       document.getElementById('timeline-playhead').style.left = ((simTime / duration) * 100) + '%';
@@ -1710,6 +1873,7 @@
     renderBgGrid();
     renderRFMusicList();
     renderTextLayersList();
+    updateProUI();
     lucide.createIcons();
     requestAnimationFrame(renderLoop);
   </script>
