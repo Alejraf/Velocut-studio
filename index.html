@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#090b10" />
+  <meta name="description" content="VeloCut Studio - Editor de video profesional 3D/2D multilingüe en tu navegador con exportación HD/Full HD." />
+  <title>VeloCut Studio — Editor de Video Pro</title>
+
+  <!-- ZONA DE MONETIZACIÓN MONETAG -->
+  <!-- Pega aquí tu etiqueta oficial de Monetag si usas el SDK Rewarded Interstitial -->
+  <!-- <script src="https://alwingulla.com/88/tag.min.js" data-zone="TU_ZONE_ID" async data-cfasync="false"></script> -->
+
+  <link id="dynamic-favicon" rel="icon" type="image/png" />
+  <link id="dynamic-apple-icon" rel="apple-touch-icon" />
+  <link id="dynamic-manifest" rel="manifest" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;800&family=Playfair+Display:wght@700&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+    body { font-family: 'Inter', sans-serif; background: #090b10; color: #f8fafc; overflow: hidden; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0f131a; }
+    ::-webkit-scrollbar-thumb { background: #262e3d; border-radius: 99px; }
+    input[type="range"] {
+      -webkit-appearance: none; appearance: none; height: 5px;
+      background: #1e2533; border-radius: 999px; outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none; width: 14px; height: 14px;
+      border-radius: 50%; background: #10b981; cursor: pointer;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+    }
+    .glass-panel { background: rgba(15, 19, 26, 0.92); backdrop-filter: blur(12px); }
+    .checkerboard {
+      background-image: linear-gradient(45deg, #131722 25%, transparent 25%),
+        linear-gradient(-45deg, #131722 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #131722 75%),
+        linear-gradient(-45deg, transparent 75%, #131722 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="h-14 border-b border-slate-800/80 bg-[#0c0f16] px-3 md:px-5 flex items-center justify-between shrink-0 z-30">
+    <div class="flex items-center gap-2.5">
+      <div class="relative w-9 h-9 rounded-xl overflow-hidden shadow-lg shadow-emerald-500/20 border border-emerald-400/30">
+        <img id="header-logo-img" alt="VeloCut 3D Logo" class="w-full h-full object-cover" />
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <span class="font-extrabold tracking-tight text-base bg-gradient-to-r from-emerald-400 via-cyan-300 to-teal-200 bg-clip-text text-transparent">VeloCut</span>
+          <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">STUDIO 3D</span>
+        </div>
+        <p id="lbl-subtitle" class="text-[10px] text-slate-400 hidden sm:block">Editor Pro & Fondos 3D/2D</p>
+      </div>
+    </div>
+
+    <!-- Center Aspect Ratios -->
+    <div class="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+      <button onclick="setAspect('9:16')" data-ratio="9:16" class="ratio-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-500 text-slate-950 transition">9:16</button>
+      <button onclick="setAspect('16:9')" data-ratio="16:9" class="ratio-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">16:9</button>
+      <button onclick="setAspect('1:1')" data-ratio="1:1" class="ratio-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">1:1</button>
+      <button onclick="setAspect('4:5')" data-ratio="4:5" class="ratio-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">4:5</button>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="flex items-center gap-2">
+      <!-- Language Selector -->
+      <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-slate-900 border border-slate-700 text-xs font-semibold rounded-lg px-2 py-1.5 text-slate-200 focus:outline-none focus:border-emerald-500">
+        <option value="es">🇪🇸 ES</option>
+        <option value="pt">🇧🇷 PT</option>
+        <option value="en">🇺🇸 EN</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="it">🇮🇹 IT</option>
+      </select>
+
+      <!-- Install PWA / Download 3D Logo -->
+      <button onclick="openInstallModal()" class="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-cyan-300 transition">
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        <span id="btn-install-label">Instalar App</span>
+      </button>
+
+      <!-- Import Video -->
+      <label class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-white transition">
+        <i data-lucide="folder-plus" class="w-3.5 h-3.5 text-emerald-400"></i>
+        <span id="btn-import-label">Importar</span>
+        <input type="file" id="video-upload" accept="video/*" class="hidden" onchange="handleVideoUpload(event)" />
+      </label>
+
+      <!-- Direct Export Trigger (Activates Video + Ad Gate immediately) -->
+      <button id="btn-top-export" onclick="triggerDirectExport()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/25 transition">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span id="btn-export-label">Exportar</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+
+    <!-- LEFT / CENTER: PREVIEW STAGE -->
+    <main class="flex-1 flex flex-col items-center justify-center p-3 md:p-5 relative checkerboard overflow-hidden">
+      <!-- Ad / Export Live Status Banner -->
+      <div id="export-live-banner" class="hidden absolute top-3 left-1/2 -translate-x-1/2 z-40 bg-slate-900/95 border border-emerald-500/50 px-4 py-2 rounded-full shadow-2xl flex items-center gap-3">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span id="export-live-text" class="text-xs font-semibold text-emerald-300">Procesando video...</span>
+        <span id="export-live-pct" class="text-xs font-mono font-bold text-white">0%</span>
+      </div>
+
+      <!-- Canvas Wrapper -->
+      <div id="canvas-container" class="relative shadow-2xl rounded-xl overflow-hidden border border-slate-800 bg-black flex items-center justify-center" style="aspect-ratio: 9/16; height: 100%; max-height: calc(100vh - 285px);">
+        <canvas id="preview-canvas" width="720" height="1280" class="w-full h-full object-contain cursor-move"></canvas>
+      </div>
+
+      <!-- Playback Bar -->
+      <div class="mt-3 flex items-center gap-4 bg-slate-900/90 border border-slate-800 px-4 py-1.5 rounded-full">
+        <button onclick="togglePlay()" class="w-8 h-8 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 flex items-center justify-center transition">
+          <i id="play-icon" data-lucide="play" class="w-4 h-4 fill-current"></i>
+        </button>
+        <div class="text-xs font-mono text-slate-300">
+          <span id="time-current">00:00.0</span> / <span id="time-total">00:10.0</span>
+        </div>
+        <button onclick="splitAtPlayhead()" class="flex items-center gap-1 text-xs text-slate-300 hover:text-emerald-400 transition" title="Dividir en cabezal">
+          <i data-lucide="scissors" class="w-3.5 h-3.5"></i>
+          <span id="btn-split-label">Dividir</span>
+        </button>
+        <button onclick="toggleMute()" class="text-slate-300 hover:text-white transition">
+          <i id="mute-icon" data-lucide="volume-2" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </main>
+
+    <!-- RIGHT: TOOL INSPECTOR PANEL -->
+    <aside class="w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-slate-800 bg-[#0d1118] flex flex-col shrink-0 h-64 lg:h-auto">
+      <!-- Tool Tabs -->
+      <div class="grid grid-cols-5 border-b border-slate-800 bg-[#090c12]">
+        <button onclick="switchTab('bg')" data-tab="bg" class="tab-btn py-2.5 flex flex-col items-center gap-1 text-[11px] font-semibold text-emerald-400 border-b-2 border-emerald-400">
+          <i data-lucide="layers" class="w-4 h-4"></i>
+          <span id="tab-bg">Fondos</span>
+        </button>
+        <button onclick="switchTab('trim')" data-tab="trim" class="tab-btn py-2.5 flex flex-col items-center gap-1 text-[11px] font-medium text-slate-400 hover:text-slate-200">
+          <i data-lucide="crop" class="w-4 h-4"></i>
+          <span id="tab-trim">Recorte</span>
+        </button>
+        <button onclick="switchTab('filters')" data-tab="filters" class="tab-btn py-2.5 flex flex-col items-center gap-1 text-[11px] font-medium text-slate-400 hover:text-slate-200">
+          <i data-lucide="wand-2" class="w-4 h-4"></i>
+          <span id="tab-filters">Filtros</span>
+        </button>
+        <button onclick="switchTab('text')" data-tab="text" class="tab-btn py-2.5 flex flex-col items-center gap-1 text-[11px] font-medium text-slate-400 hover:text-slate-200">
+          <i data-lucide="type" class="w-4 h-4"></i>
+          <span id="tab-text">Texto</span>
+        </button>
+        <button onclick="switchTab('audio')" data-tab="audio" class="tab-btn py-2.5 flex flex-col items-center gap-1 text-[11px] font-medium text-slate-400 hover:text-slate-200">
+          <i data-lucide="music" class="w-4 h-4"></i>
+          <span id="tab-audio">Audio</span>
+        </button>
+      </div>
+
+      <!-- Tab Content Container -->
+      <div class="flex-1 overflow-y-auto p-4 space-y-4">
+
+        <!-- TAB: BACKGROUNDS (3D, 2D, MODERN, RETRO, BLUR, SOLID) -->
+        <div id="panel-bg" class="tool-panel space-y-3">
+          <div class="flex items-center justify-between">
+            <span id="lbl-bg-title" class="text-xs font-bold uppercase tracking-wider text-slate-400">Fondos 3D, 2D, Modernos y Retro</span>
+            <span id="active-bg-badge" class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold">3D Synthwave</span>
+          </div>
+
+          <!-- Category Pills -->
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="filterBgCategory('3d')" class="bg-cat-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-500 text-slate-950" data-cat="3d">3D Pro</button>
+            <button onclick="filterBgCategory('2d')" class="bg-cat-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-300" data-cat="2d">2D Arte</button>
+            <button onclick="filterBgCategory('modern')" class="bg-cat-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-300" data-cat="modern">Moderno</button>
+            <button onclick="filterBgCategory('retro')" class="bg-cat-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-300" data-cat="retro">Retro 80s</button>
+            <button onclick="filterBgCategory('solid')" class="bg-cat-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-300" data-cat="solid">Blur / Color</button>
+          </div>
+
+          <!-- Background Presets Grid -->
+          <div id="bg-presets-grid" class="grid grid-cols-2 gap-2"></div>
+
+          <!-- Video Scale inside Canvas -->
+          <div class="pt-2 border-t border-slate-800 space-y-1.5">
+            <div class="flex justify-between text-xs">
+              <span id="lbl-video-scale" class="text-slate-300">Escala del Video</span>
+              <span id="val-video-scale" class="font-mono text-emerald-400">88%</span>
+            </div>
+            <input type="range" min="40" max="120" value="88" class="w-full" oninput="updateVideoScale(this.value)" />
+          </div>
+        </div>
+
+        <!-- TAB: TRIM & SPEED -->
+        <div id="panel-trim" class="tool-panel hidden space-y-4">
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span id="lbl-trim-start" class="text-slate-300">Inicio (Trim In)</span>
+              <span id="val-trim-start" class="font-mono text-emerald-400">0.0s</span>
+            </div>
+            <input type="range" id="range-trim-start" min="0" max="10" step="0.1" value="0" class="w-full" oninput="updateTrim()" />
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs">
+              <span id="lbl-trim-end" class="text-slate-300">Fin (Trim Out)</span>
+              <span id="val-trim-end" class="font-mono text-emerald-400">10.0s</span>
+            </div>
+            <input type="range" id="range-trim-end" min="0.5" max="10" step="0.1" value="10" class="w-full" oninput="updateTrim()" />
+          </div>
+
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <div class="flex justify-between text-xs">
+              <span id="lbl-speed" class="text-slate-300">Velocidad</span>
+              <span id="val-speed" class="font-mono text-cyan-400">1.0x</span>
+            </div>
+            <input type="range" min="0.25" max="3" step="0.25" value="1" class="w-full" oninput="updateSpeed(this.value)" />
+          </div>
+        </div>
+
+        <!-- TAB: FILTERS & COLOR -->
+        <div id="panel-filters" class="tool-panel hidden space-y-4">
+          <div class="grid grid-cols-4 gap-1.5">
+            <button onclick="setFilterPreset('none')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Original</button>
+            <button onclick="setFilterPreset('cinema')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Cine</button>
+            <button onclick="setFilterPreset('vivid')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Vívido</button>
+            <button onclick="setFilterPreset('retro')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Retro</button>
+            <button onclick="setFilterPreset('bw')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">B&N</button>
+            <button onclick="setFilterPreset('neon')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Neón</button>
+            <button onclick="setFilterPreset('warm')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Cálido</button>
+            <button onclick="setFilterPreset('cold')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold">Frío</button>
+          </div>
+
+          <div class="space-y-2.5 pt-2 border-t border-slate-800">
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span id="lbl-brightness">Brillo</span><span id="val-brightness">100%</span></div>
+              <input type="range" id="flt-brightness" min="50" max="150" value="100" class="w-full" oninput="updateFilters()" />
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span id="lbl-contrast">Contraste</span><span id="val-contrast">100%</span></div>
+              <input type="range" id="flt-contrast" min="50" max="150" value="100" class="w-full" oninput="updateFilters()" />
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span id="lbl-saturate">Saturación</span><span id="val-saturate">100%</span></div>
+              <input type="range" id="flt-saturate" min="0" max="200" value="100" class="w-full" oninput="updateFilters()" />
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: TEXT OVERLAYS -->
+        <div id="panel-text" class="tool-panel hidden space-y-3">
+          <div class="flex gap-2">
+            <input type="text" id="text-input" value="VeloCut Studio 3D" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500" />
+            <button onclick="addTextLayer()" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs">+ Añadir</button>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <select id="text-font" onchange="updateActiveText()" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs">
+              <option value="Inter">Modern Sans</option>
+              <option value="Orbitron">Cyber 3D</option>
+              <option value="Bebas Neue">Impact Display</option>
+              <option value="Playfair Display">Editorial Serif</option>
+            </select>
+            <input type="color" id="text-color" value="#ffffff" onchange="updateActiveText()" class="w-full h-8 rounded bg-slate-900 border border-slate-700 cursor-pointer" />
+          </div>
+          <p id="lbl-drag-hint" class="text-[11px] text-slate-400">Arrastra el texto directamente sobre el lienzo para posicionarlo.</p>
+          <div id="text-layers-list" class="space-y-1.5"></div>
+        </div>
+
+        <!-- TAB: AUDIO & EXPORT QUALITY -->
+        <div id="panel-audio" class="tool-panel hidden space-y-4">
+          <div class="space-y-2">
+            <label id="lbl-music-upload" class="block text-xs font-semibold text-slate-300">Pista de Audio / Música</label>
+            <input type="file" accept="audio/*" onchange="handleAudioUpload(event)" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-emerald-400 hover:file:bg-slate-700" />
+          </div>
+
+          <div class="space-y-2 pt-2 border-t border-slate-800">
+            <label id="lbl-export-res" class="block text-xs font-semibold text-slate-300">Calidad de Exportación</label>
+            <select id="export-quality" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold">
+              <option value="1080">1080p Full HD (60 FPS)</option>
+              <option value="720">720p HD (30 FPS)</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+  </div>
+
+  <!-- BOTTOM TIMELINE -->
+  <footer class="h-28 border-t border-slate-800 bg-[#090c12] px-4 py-2 flex flex-col justify-between shrink-0 z-20">
+    <div class="flex items-center justify-between text-[11px] text-slate-400">
+      <span id="lbl-timeline">Línea de Tiempo Multipista</span>
+      <span id="split-count-badge" class="text-emerald-400 font-mono">0 cortes</span>
+    </div>
+
+    <div id="timeline-track" onclick="seekTimeline(event)" class="relative flex-1 my-1 bg-slate-900/90 rounded-lg border border-slate-800 overflow-hidden cursor-pointer">
+      <!-- Video Track Bar -->
+      <div id="timeline-video-bar" class="absolute top-2 bottom-2 bg-gradient-to-r from-emerald-600/40 via-cyan-600/40 to-emerald-600/40 border border-emerald-400/60 rounded-md flex items-center px-2" style="left: 0%; width: 100%;">
+        <span class="text-[10px] font-bold text-emerald-200 truncate">VIDEO TRACK • 3D/2D CANVAS</span>
+      </div>
+      <!-- Split Markers -->
+      <div id="timeline-splits"></div>
+      <!-- Playhead -->
+      <div id="timeline-playhead" class="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_8px_#fff] pointer-events-none" style="left: 0%;">
+        <div class="w-3 h-3 -ml-[5px] bg-emerald-400 rotate-45 -mt-1"></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- INSTALL & 3D LOGO MODAL -->
+  <div id="install-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#101520] border border-slate-800 rounded-2xl max-w-md w-full p-6 space-y-4 text-center shadow-2xl">
+      <img id="modal-logo-img" class="w-28 h-28 mx-auto rounded-3xl shadow-2xl border border-emerald-400/40" alt="VeloCut 3D Icon" />
+      <h3 id="modal-install-title" class="text-lg font-extrabold text-white">Instalar VeloCut Studio</h3>
+      <p id="modal-install-desc" class="text-xs text-slate-300 leading-relaxed">
+        Añade VeloCut Studio a tu pantalla de inicio con su ícono tridimensional Full HD o descarga el logotipo oficial.
+      </p>
+      <div class="flex gap-2 justify-center pt-2">
+        <button onclick="download3DLogo()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">
+          Descargar Logo 3D (1024px)
+        </button>
+        <button onclick="closeInstallModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIDDEN MEDIA ELEMENTS -->
+  <video id="source-video" class="hidden" playsinline crossorigin="anonymous"></video>
+  <audio id="source-audio" class="hidden" crossorigin="anonymous"></audio>
+
+  <script>
+    // =========================================================================
+    // 1. CONFIGURACIÓN DE MONETIZACIÓN MONETAG (EDITA AQUÍ TUS DATOS)
+    // =========================================================================
+    const MONETAG_CONFIG = {
+      enabled: false, // Cambia a true cuando pegues tu Zone ID o Direct Link
+      mode: 'DIRECT_LINK', // Opciones: 'SDK' (Rewarded Interstitial) o 'DIRECT_LINK' (SmartLink)
+      zoneId: 'TU_ZONE_ID', // Ej: '8912345' (usado si mode === 'SDK')
+      directLink: 'https://tu-enlace-directo-de-monetag.com', // Usado si mode === 'DIRECT_LINK'
+      waitSeconds: 5 // Segundos de espera de patrocinador antes de iniciar exportación
+    };
+
+    // =========================================================================
+    // 2. SISTEMA MULTILINGÜE (PORTUGUÉS, ESPAÑOL, INGLÉS, FRANCÉS, ITALIANO)
+    // =========================================================================
+    const I18N = {
+      es: {
+        subtitle: "Editor Pro & Fondos 3D/2D",
+        install: "Instalar App",
+        import: "Importar",
+        export: "Exportar",
+        split: "Dividir",
+        tabBg: "Fondos",
+        tabTrim: "Recorte",
+        tabFilters: "Filtros",
+        tabText: "Texto",
+        tabAudio: "Audio",
+        bgTitle: "Fondos 3D, 2D, Modernos y Retro",
+        videoScale: "Escala del Video",
+        trimStart: "Inicio (Trim In)",
+        trimEnd: "Fin (Trim Out)",
+        speed: "Velocidad",
+        brightness: "Brillo",
+        contrast: "Contraste",
+        saturate: "Saturación",
+        dragHint: "Arrastra el texto directamente sobre el lienzo para posicionarlo.",
+        musicUpload: "Pista de Audio / Música",
+        exportRes: "Calidad de Exportación",
+        timeline: "Línea de Tiempo Multipista",
+        adVerifying: "Verificando patrocinador...",
+        exporting: "Exportando video HD..."
+      },
+      pt: {
+        subtitle: "Editor Pro & Fundos 3D/2D",
+        install: "Instalar App",
+        import: "Importar",
+        export: "Exportar",
+        split: "Dividir",
+        tabBg: "Fundos",
+        tabTrim: "Cortar",
+        tabFilters: "Filtros",
+        tabText: "Texto",
+        tabAudio: "Áudio",
+        bgTitle: "Fundos 3D, 2D, Modernos e Retrô",
+        videoScale: "Escala do Vídeo",
+        trimStart: "Início (Trim In)",
+        trimEnd: "Fim (Trim Out)",
+        speed: "Velocidade",
+        brightness: "Brilho",
+        contrast: "Contraste",
+        saturate: "Saturação",
+        dragHint: "Arraste o texto diretamente na tela para posicionar.",
+        musicUpload: "Faixa de Áudio / Música",
+        exportRes: "Qualidade de Exportação",
+        timeline: "Linha do Tempo Multipista",
+        adVerifying: "Verificando patrocinador...",
+        exporting: "Exportando vídeo HD..."
+      },
+      en: {
+        subtitle: "Pro Editor & 3D/2D Backgrounds",
+        install: "Install App",
+        import: "Import",
+        export: "Export",
+        split: "Split",
+        tabBg: "Backdrops",
+        tabTrim: "Trim",
+        tabFilters: "Filters",
+        tabText: "Text",
+        tabAudio: "Audio",
+        bgTitle: "3D, 2D, Modern & Retro Backdrops",
+        videoScale: "Video Scale",
+        trimStart: "Trim In",
+        trimEnd: "Trim Out",
+        speed: "Speed",
+        brightness: "Brightness",
+        contrast: "Contrast",
+        saturate: "Saturation",
+        dragHint: "Drag text directly on the preview canvas to position.",
+        musicUpload: "Audio / Music Track",
+        exportRes: "Export Quality",
+        timeline: "Multi-Track Timeline",
+        adVerifying: "Verifying sponsor...",
+        exporting: "Exporting HD Video..."
+      },
+      fr: {
+        subtitle: "Éditeur Pro & Fonds 3D/2D",
+        install: "Installer",
+        import: "Importer",
+        export: "Exporter",
+        split: "Diviser",
+        tabBg: "Fonds",
+        tabTrim: "Couper",
+        tabFilters: "Filtres",
+        tabText: "Texte",
+        tabAudio: "Audio",
+        bgTitle: "Fonds 3D, 2D, Modernes et Rétro",
+        videoScale: "Échelle Vidéo",
+        trimStart: "Début",
+        trimEnd: "Fin",
+        speed: "Vitesse",
+        brightness: "Luminosité",
+        contrast: "Contraste",
+        saturate: "Saturation",
+        dragHint: "Faites glisser le texte sur l'écran pour le placer.",
+        musicUpload: "Piste Audio / Musique",
+        exportRes: "Qualité d'Exportation",
+        timeline: "Chronologie Multipiste",
+        adVerifying: "Vérification du sponsor...",
+        exporting: "Exportation vidéo HD..."
+      },
+      it: {
+        subtitle: "Editor Pro & Sfondi 3D/2D",
+        install: "Installa App",
+        import: "Importa",
+        export: "Esporta",
+        split: "Dividi",
+        tabBg: "Sfondi",
+        tabTrim: "Taglia",
+        tabFilters: "Filtri",
+        tabText: "Testo",
+        tabAudio: "Audio",
+        bgTitle: "Sfondi 3D, 2D, Moderni e Retrò",
+        videoScale: "Scala Video",
+        trimStart: "Inizio",
+        trimEnd: "Fine",
+        speed: "Velocità",
+        brightness: "Luminosità",
+        contrast: "Contrasto",
+        saturate: "Saturazione",
+        dragHint: "Trascina il testo direttamente sull'anteprima.",
+        musicUpload: "Traccia Audio / Musica",
+        exportRes: "Qualità Esportazione",
+        timeline: "Timeline Multitraccia",
+        adVerifying: "Verifica sponsor...",
+        exporting: "Esportazione video HD..."
+      }
+    };
+
+    let currentLang = 'es';
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const t = I18N[lang] || I18N.es;
+      document.getElementById('lbl-subtitle').innerText = t.subtitle;
+      document.getElementById('btn-install-label').innerText = t.install;
+      document.getElementById('btn-import-label').innerText = t.import;
+      document.getElementById('btn-export-label').innerText = t.export;
+      document.getElementById('btn-split-label').innerText = t.split;
+      document.getElementById('tab-bg').innerText = t.tabBg;
+      document.getElementById('tab-trim').innerText = t.tabTrim;
+      document.getElementById('tab-filters').innerText = t.tabFilters;
+      document.getElementById('tab-text').innerText = t.tabText;
+      document.getElementById('tab-audio').innerText = t.tabAudio;
+      document.getElementById('lbl-bg-title').innerText = t.bgTitle;
+      document.getElementById('lbl-video-scale').innerText = t.videoScale;
+      document.getElementById('lbl-trim-start').innerText = t.trimStart;
+      document.getElementById('lbl-trim-end').innerText = t.trimEnd;
+      document.getElementById('lbl-speed').innerText = t.speed;
+      document.getElementById('lbl-brightness').innerText = t.brightness;
+      document.getElementById('lbl-contrast').innerText = t.contrast;
+      document.getElementById('lbl-saturate').innerText = t.saturate;
+      document.getElementById('lbl-drag-hint').innerText = t.dragHint;
+      document.getElementById('lbl-music-upload').innerText = t.musicUpload;
+      document.getElementById('lbl-export-res').innerText = t.exportRes;
+      document.getElementById('lbl-timeline').innerText = t.timeline;
+    }
+
+    // =========================================================================
+    // 3. GENERADOR DE LOGO TRIDIMENSIONAL FULL HD (1024x1024) + PWA MANIFEST
+    // =========================================================================
+    let logo3DDataURL = '';
+
+    function generate3DAppIcon() {
+      const c = document.createElement('canvas');
+      c.width = 1024;
+      c.height = 1024;
+      const ctx = c.getContext('2d');
+
+      // Rounded squircle background
+      const r = 220;
+      ctx.beginPath();
+      ctx.moveTo(r, 0);
+      ctx.lineTo(1024 - r, 0);
+      ctx.quadraticCurveTo(1024, 0, 1024, r);
+      ctx.lineTo(1024, 1024 - r);
+      ctx.quadraticCurveTo(1024, 1024, 1024 - r, 1024);
+      ctx.lineTo(r, 1024);
+      ctx.quadraticCurveTo(0, 1024, 0, 1024 - r);
+      ctx.lineTo(0, r);
+      ctx.quadraticCurveTo(0, 0, r, 0);
+      ctx.closePath();
+      ctx.clip();
+
+      // Deep 3D Studio Gradient
+      const bgGrad = ctx.createLinearGradient(0, 0, 1024, 1024);
+      bgGrad.addColorStop(0, '#070b14');
+      bgGrad.addColorStop(0.5, '#0f172a');
+      bgGrad.addColorStop(1, '#042f2e');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, 1024, 1024);
+
+      // Ambient Glow
+      const glow = ctx.createRadialGradient(512, 512, 60, 512, 512, 480);
+      glow.addColorStop(0, 'rgba(16, 185, 129, 0.45)');
+      glow.addColorStop(0.6, 'rgba(6, 182, 212, 0.15)');
+      glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, 1024, 1024);
+
+      // 3D Extruded "V" Prism Layers
+      for (let i = 28; i >= 0; i--) {
+        ctx.save();
+        ctx.translate(512 - i * 1.4, 530 + i * 1.6);
+        ctx.beginPath();
+        ctx.moveTo(-250, -240);
+        ctx.lineTo(-90, -240);
+        ctx.lineTo(0, 60);
+        ctx.lineTo(90, -240);
+        ctx.lineTo(250, -240);
+        ctx.lineTo(65, 270);
+        ctx.lineTo(-65, 270);
+        ctx.closePath();
+
+        if (i === 0) {
+          const faceGrad = ctx.createLinearGradient(-250, -240, 250, 270);
+          faceGrad.addColorStop(0, '#34d399');
+          faceGrad.addColorStop(0.5, '#22d3ee');
+          faceGrad.addColorStop(1, '#818cf8');
+          ctx.fillStyle = faceGrad;
+          ctx.shadowColor = 'rgba(16, 185, 129, 0.7)';
+          ctx.shadowBlur = 45;
+          ctx.fill();
+          ctx.lineWidth = 6;
+          ctx.strokeStyle = 'rgba(255,255,255,0.65)';
+          ctx.stroke();
+        } else {
+          ctx.fillStyle = `rgb(${10 + i}, ${45 + i * 2}, ${65 + i * 2})`;
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      // Glossy 3D Play Cutout Accent
+      ctx.save();
+      ctx.translate(512, 455);
+      ctx.beginPath();
+      ctx.moveTo(-36, -48);
+      ctx.lineTo(54, 0);
+      ctx.lineTo(-36, 48);
+      ctx.closePath();
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = '#ffffff';
+      ctx.shadowBlur = 20;
+      ctx.fill();
+      ctx.restore();
+
+      logo3DDataURL = c.toDataURL('image/png');
+      document.getElementById('header-logo-img').src = logo3DDataURL;
+      document.getElementById('modal-logo-img').src = logo3DDataURL;
+      document.getElementById('dynamic-favicon').href = logo3DDataURL;
+      document.getElementById('dynamic-apple-icon').href = logo3DDataURL;
+
+      // Dynamic PWA Manifest
+      const manifest = {
+        name: "VeloCut Studio 3D",
+        short_name: "VeloCut",
+        start_url: ".",
+        display: "standalone",
+        background_color: "#090b10",
+        theme_color: "#10b981",
+        icons: [{ src: logo3DDataURL, sizes: "1024x1024", type: "image/png" }]
+      };
+      const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+      document.getElementById('dynamic-manifest').href = URL.createObjectURL(blob);
+    }
+
+    function download3DLogo() {
+      const a = document.createElement('a');
+      a.href = logo3DDataURL;
+      a.download = 'VeloCut-Studio-3D-Logo-FullHD.png';
+      a.click();
+    }
+
+    function openInstallModal() { document.getElementById('install-modal').classList.remove('hidden'); }
+    function closeInstallModal() { document.getElementById('install-modal').classList.add('hidden'); }
+
+    // =========================================================================
+    // 4. BIBLIOTECA DE FONDOS 3D, 2D, MODERNOS, RETRO Y SÓLIDOS
+    // =========================================================================
+    const BACKGROUNDS = [
+      { id: '3d-synthwave', cat: '3d', name: '3D Synthwave Grid' },
+      { id: '3d-cubes', cat: '3d', name: '3D Tunnel Cubes' },
+      { id: '3d-waves', cat: '3d', name: '3D Cyber Mesh' },
+      { id: '3d-warp', cat: '3d', name: '3D Starfield Warp' },
+      { id: '2d-memphis', cat: '2d', name: '2D Memphis Pop' },
+      { id: '2d-rings', cat: '2d', name: '2D Hypno Rings' },
+      { id: '2d-stripes', cat: '2d', name: '2D Kinetic Stripes' },
+      { id: '2d-dots', cat: '2d', name: '2D Halftone Art' },
+      { id: 'mod-aurora', cat: 'modern', name: 'Aurora Glass' },
+      { id: 'mod-cyber', cat: 'modern', name: 'Cyberpunk Neon' },
+      { id: 'mod-obsidian', cat: 'modern', name: 'Obsidian Silk' },
+      { id: 'mod-emerald', cat: 'modern', name: 'Emerald Pulse' },
+      { id: 'ret-vhs', cat: 'retro', name: '80s VHS Tape' },
+      { id: 'ret-vapor', cat: 'retro', name: 'Vaporwave Sun' },
+      { id: 'ret-arcade', cat: 'retro', name: 'Arcade CRT' },
+      { id: 'ret-groovy', cat: 'retro', name: '70s Groovy Wave' },
+      { id: 'sol-blur', cat: 'solid', name: 'Gaussian Blur' },
+      { id: 'sol-black', cat: 'solid', name: 'Pitch Black' },
+      { id: 'sol-white', cat: 'solid', name: 'Studio White' },
+      { id: 'sol-crimson', cat: 'solid', name: 'Crimson Studio' }
+    ];
+
+    let activeBgId = '3d-synthwave';
+    let activeBgCat = '3d';
+
+    function filterBgCategory(cat) {
+      activeBgCat = cat;
+      document.querySelectorAll('.bg-cat-btn').forEach(btn => {
+        if (btn.dataset.cat === cat) {
+          btn.className = 'bg-cat-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-500 text-slate-950';
+        } else {
+          btn.className = 'bg-cat-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-300';
+        }
+      });
+      renderBgGrid();
+    }
+
+    function renderBgGrid() {
+      const grid = document.getElementById('bg-presets-grid');
+      grid.innerHTML = '';
+      BACKGROUNDS.filter(b => b.cat === activeBgCat).forEach(bg => {
+        const btn = document.createElement('button');
+        const isSelected = bg.id === activeBgId;
+        btn.className = `p-2.5 rounded-xl border text-left transition ${isSelected ? 'border-emerald-400 bg-emerald-500/15 text-white' : 'border-slate-800 bg-slate-900/80 text-slate-300 hover:border-slate-700'}`;
+        btn.innerHTML = `<div class="text-xs font-bold truncate">${bg.name}</div><div class="text-[10px] text-slate-400 uppercase mt-0.5">${bg.cat}</div>`;
+        btn.onclick = () => {
+          activeBgId = bg.id;
+          document.getElementById('active-bg-badge').innerText = bg.name;
+          renderBgGrid();
+        };
+        grid.appendChild(btn);
+      });
+    }
+
+    function drawProceduralBackground(ctx, w, h, t) {
+      ctx.save();
+      if (activeBgId === '3d-synthwave') {
+        const g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, '#09021a'); g.addColorStop(0.5, '#2e0854'); g.addColorStop(1, '#050814');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+        // Sun
+        ctx.fillStyle = '#f43f5e';
+        ctx.beginPath(); ctx.arc(w / 2, h * 0.42, w * 0.22, 0, Math.PI * 2); ctx.fill();
+        // 3D Perspective Grid
+        ctx.strokeStyle = 'rgba(34, 211, 238, 0.55)'; ctx.lineWidth = 2;
+        const horizon = h * 0.5;
+        for (let i = -10; i <= 10; i++) {
+          ctx.beginPath(); ctx.moveTo(w / 2 + i * 25, horizon); ctx.lineTo(w / 2 + i * 160, h); ctx.stroke();
+        }
+        const offset = (t * 60) % 40;
+        for (let y = horizon; y < h; y += 35) {
+          const py = y + offset * ((y - horizon) / (h - horizon));
+          ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(w, py); ctx.stroke();
+        }
+      } else if (activeBgId === '3d-cubes') {
+        ctx.fillStyle = '#060913'; ctx.fillRect(0, 0, w, h);
+        for (let i = 1; i <= 8; i++) {
+          const z = ((i * 0.15 + t * 0.25) % 1);
+          const size = z * Math.max(w, h) * 0.9;
+          ctx.save();
+          ctx.translate(w / 2, h / 2);
+          ctx.rotate(t * 0.4 + i * 0.2);
+          ctx.strokeStyle = `hsla(${160 + i * 20}, 85%, 60%, ${1 - z})`;
+          ctx.lineWidth = 3;
+          ctx.strokeRect(-size / 2, -size / 2, size, size);
+          ctx.restore();
+        }
+      } else if (activeBgId === '3d-waves') {
+        ctx.fillStyle = '#050b14'; ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2;
+        for (let row = 0; row < 18; row++) {
+          ctx.beginPath();
+          for (let x = 0; x <= w; x += 25) {
+            const y = h * 0.25 + row * 38 + Math.sin(x * 0.015 + t * 3 + row * 0.5) * 22;
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      } else if (activeBgId === '3d-warp') {
+        ctx.fillStyle = '#02040a'; ctx.fillRect(0, 0, w, h);
+        for (let i = 0; i < 90; i++) {
+          const angle = i * 2.39996;
+          const dist = ((i * 19 + t * 280) % (Math.max(w, h) * 0.7));
+          const x = w / 2 + Math.cos(angle) * dist;
+          const y = h / 2 + Math.sin(angle) * dist;
+          ctx.fillStyle = i % 2 === 0 ? '#38bdf8' : '#34d399';
+          ctx.beginPath(); ctx.arc(x, y, 1.5 + dist * 0.008, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (activeBgId.startsWith('2d-')) {
+        ctx.fillStyle = activeBgId === '2d-memphis' ? '#fef08a' : '#0f172a';
+        ctx.fillRect(0, 0, w, h);
+        for (let i = 0; i < 14; i++) {
+          ctx.save();
+          ctx.translate((w * ((i * 37) % 100)) / 100, (h * ((i * 53) % 100)) / 100);
+          ctx.rotate(t + i);
+          ctx.strokeStyle = ['#ec4899', '#06b6d4', '#10b981', '#f59e0b'][i % 4];
+          ctx.lineWidth = 5;
+          if (activeBgId === '2d-rings') {
+            ctx.beginPath(); ctx.arc(0, 0, 30 + (i % 4) * 25, 0, Math.PI * 2); ctx.stroke();
+          } else {
+            ctx.strokeRect(-35, -35, 70, 70);
+          }
+          ctx.restore();
+        }
+      } else if (activeBgId.startsWith('ret-')) {
+        const g = ctx.createLinearGradient(0, 0, w, h);
+        g.addColorStop(0, '#3b0764'); g.addColorStop(0.5, '#be185d'); g.addColorStop(1, '#f59e0b');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = 'rgba(0,0,0,0.22)';
+        for (let y = 0; y < h; y += 8) ctx.fillRect(0, y, w, 3);
+      } else if (activeBgId === 'sol-white') {
+        ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, w, h);
+      } else if (activeBgId === 'sol-crimson') {
+        ctx.fillStyle = '#7f1d1d'; ctx.fillRect(0, 0, w, h);
+      } else if (activeBgId === 'sol-black') {
+        ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, w, h);
+      } else {
+        const g = ctx.createLinearGradient(0, 0, w, h);
+        g.addColorStop(0, '#064e3b'); g.addColorStop(0.5, '#0f172a'); g.addColorStop(1, '#1e1b4b');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+      }
+      ctx.restore();
+    }
+
+    // =========================================================================
+    // 5. MOTOR DE EDICIÓN DE VIDEO, TEXTO, FILTROS Y LÍNEA DE TIEMPO
+    // =========================================================================
+    const canvas = document.getElementById('preview-canvas');
+    const ctx = canvas.getContext('2d');
+    const videoEl = document.getElementById('source-video');
+    const audioEl = document.getElementById('source-audio');
+
+    let isPlaying = false;
+    let hasUserVideo = false;
+    let simTime = 0;
+    let duration = 10.0;
+    let trimStart = 0.0;
+    let trimEnd = 10.0;
+    let playbackSpeed = 1.0;
+    let videoScale = 0.88;
+    let splits = [];
+    let filterCSS = 'none';
+
+    let textLayers = [
+      { id: 1, text: 'VeloCut Studio 3D', font: 'Inter', color: '#ffffff', x: 0.5, y: 0.16 }
+    ];
+    let activeTextId = 1;
+    let draggingText = false;
+
+    function setAspect(ratio) {
+      document.querySelectorAll('.ratio-btn').forEach(b => {
+        b.className = b.dataset.ratio === ratio
+          ? 'ratio-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-500 text-slate-950 transition'
+          : 'ratio-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800 transition';
+      });
+      const container = document.getElementById('canvas-container');
+      if (ratio === '9:16') { canvas.width = 720; canvas.height = 1280; container.style.aspectRatio = '9/16'; }
+      if (ratio === '16:9') { canvas.width = 1280; canvas.height = 720; container.style.aspectRatio = '16/9'; }
+      if (ratio === '1:1') { canvas.width = 1080; canvas.height = 1080; container.style.aspectRatio = '1/1'; }
+      if (ratio === '4:5') { canvas.width = 864; canvas.height = 1080; container.style.aspectRatio = '4/5'; }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tool-panel').forEach(p => p.classList.add('hidden'));
+      document.getElementById('panel-' + tab).classList.remove('hidden');
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.className = b.dataset.tab === tab
+          ? 'tab-btn py-2.5 flex flex-col items-center gap-1 text-[11px] font-semibold text-emerald-400 border-b-2 border-emerald-400'
+          : 'tab-btn py-2.5 flex flex-col items-center gap-1 text-[11px] font-medium text-slate-400 hover:text-slate-200';
+      });
+    }
+
+    function handleVideoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      videoEl.src = URL.createObjectURL(file);
+      videoEl.onloadedmetadata = () => {
+        hasUserVideo = true;
+        duration = videoEl.duration || 10;
+        trimStart = 0;
+        trimEnd = duration;
+        document.getElementById('range-trim-start').max = duration;
+        document.getElementById('range-trim-end').max = duration;
+        document.getElementById('range-trim-end').value = duration;
+        updateTrim();
+        videoEl.currentTime = 0;
+        isPlaying = true;
+        videoEl.play();
+        updatePlayIcon();
+      };
+    }
+
+    function handleAudioUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      audioEl.src = URL.createObjectURL(file);
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      if (hasUserVideo) {
+        if (isPlaying) {
+          if (videoEl.currentTime >= trimEnd || videoEl.currentTime < trimStart) videoEl.currentTime = trimStart;
+          videoEl.play();
+          if (audioEl.src) audioEl.play();
+        } else {
+          videoEl.pause();
+          if (audioEl.src) audioEl.pause();
+        }
+      }
+      updatePlayIcon();
+    }
+
+    function updatePlayIcon() {
+      const icon = document.getElementById('play-icon');
+      icon.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
+      lucide.createIcons();
+    }
+
+    function toggleMute() {
+      videoEl.muted = !videoEl.muted;
+      const icon = document.getElementById('mute-icon');
+      icon.setAttribute('data-lucide', videoEl.muted ? 'volume-x' : 'volume-2');
+      lucide.createIcons();
+    }
+
+    function updateVideoScale(val) {
+      videoScale = val / 100;
+      document.getElementById('val-video-scale').innerText = val + '%';
+    }
+
+    function updateTrim() {
+      trimStart = parseFloat(document.getElementById('range-trim-start').value);
+      trimEnd = parseFloat(document.getElementById('range-trim-end').value);
+      if (trimEnd <= trimStart + 0.2) trimEnd = Math.min(duration, trimStart + 0.5);
+      document.getElementById('val-trim-start').innerText = trimStart.toFixed(1) + 's';
+      document.getElementById('val-trim-end').innerText = trimEnd.toFixed(1) + 's';
+      const leftPct = (trimStart / duration) * 100;
+      const widthPct = ((trimEnd - trimStart) / duration) * 100;
+      const bar = document.getElementById('timeline-video-bar');
+      bar.style.left = leftPct + '%';
+      bar.style.width = widthPct + '%';
+    }
+
+    function updateSpeed(val) {
+      playbackSpeed = parseFloat(val);
+      videoEl.playbackRate = playbackSpeed;
+      document.getElementById('val-speed').innerText = playbackSpeed.toFixed(2) + 'x';
+    }
+
+    function splitAtPlayhead() {
+      const cur = hasUserVideo ? videoEl.currentTime : simTime;
+      splits.push(cur);
+      document.getElementById('split-count-badge').innerText = `${splits.length} cortes`;
+      const container = document.getElementById('timeline-splits');
+      container.innerHTML = splits.map(s => `<div class="absolute top-0 bottom-0 w-0.5 bg-amber-400" style="left:${(s / duration) * 100}%"></div>`).join('');
+    }
+
+    function seekTimeline(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      const target = pct * duration;
+      if (hasUserVideo) videoEl.currentTime = target;
+      else simTime = target;
+    }
+
+    function setFilterPreset(preset) {
+      const b = document.getElementById('flt-brightness');
+      const c = document.getElementById('flt-contrast');
+      const s = document.getElementById('flt-saturate');
+      const map = {
+        none: [100, 100, 100], cinema: [95, 125, 85], vivid: [105, 115, 145],
+        retro: [105, 90, 75], bw: [100, 130, 0], neon: [110, 135, 180],
+        warm: [105, 105, 125], cold: [98, 110, 90]
+      };
+      [b.value, c.value, s.value] = map[preset] || [100, 100, 100];
+      updateFilters();
+    }
+
+    function updateFilters() {
+      const b = document.getElementById('flt-brightness').value;
+      const c = document.getElementById('flt-contrast').value;
+      const s = document.getElementById('flt-saturate').value;
+      document.getElementById('val-brightness').innerText = b + '%';
+      document.getElementById('val-contrast').innerText = c + '%';
+      document.getElementById('val-saturate').innerText = s + '%';
+      filterCSS = `brightness(${b}%) contrast(${c}%) saturate(${s}%)`;
+    }
+
+    function addTextLayer() {
+      const txt = document.getElementById('text-input').value.trim();
+      if (!txt) return;
+      const id = Date.now();
+      textLayers.push({
+        id,
+        text: txt,
+        font: document.getElementById('text-font').value,
+        color: document.getElementById('text-color').value,
+        x: 0.5,
+        y: 0.5
+      });
+      activeTextId = id;
+      renderTextLayersList();
+    }
+
+    function updateActiveText() {
+      const layer = textLayers.find(l => l.id === activeTextId);
+      if (!layer) return;
+      layer.text = document.getElementById('text-input').value;
+      layer.font = document.getElementById('text-font').value;
+      layer.color = document.getElementById('text-color').value;
+      renderTextLayersList();
+    }
+
+    function renderTextLayersList() {
+      const list = document.getElementById('text-layers-list');
+      list.innerHTML = textLayers.map(l => `
+        <div onclick="selectTextLayer(${l.id})" class="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs cursor-pointer ${l.id === activeTextId ? 'bg-emerald-500/20 border border-emerald-500/40 text-white' : 'bg-slate-900 text-slate-400'}">
+          <span class="truncate">${l.text}</span>
+          <button onclick="removeTextLayer(event, ${l.id})" class="text-rose-400 hover:text-rose-300 font-bold ml-2">×</button>
+        </div>
+      `).join('');
+    }
+
+    function selectTextLayer(id) {
+      activeTextId = id;
+      const l = textLayers.find(x => x.id === id);
+      if (l) {
+        document.getElementById('text-input').value = l.text;
+        document.getElementById('text-font').value = l.font;
+        document.getElementById('text-color').value = l.color;
+      }
+      renderTextLayersList();
+    }
+
+    function removeTextLayer(e, id) {
+      e.stopPropagation();
+      textLayers = textLayers.filter(l => l.id !== id);
+      renderTextLayersList();
+    }
+
+    canvas.addEventListener('pointerdown', () => { draggingText = true; });
+    window.addEventListener('pointerup', () => { draggingText = false; });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!draggingText) return;
+      const layer = textLayers.find(l => l.id === activeTextId);
+      if (!layer) return;
+      const rect = canvas.getBoundingClientRect();
+      layer.x = Math.max(0.05, Math.min(0.95, (e.clientX - rect.left) / rect.width));
+      layer.y = Math.max(0.05, Math.min(0.95, (e.clientY - rect.top) / rect.height));
+    });
+
+    // =========================================================================
+    // 6. ACTIVACIÓN DIRECTA DEL VIDEO + FLUJO DE PUBLICIDAD MONETAG AL EXPORTAR
+    // =========================================================================
+    let isExporting = false;
+
+    function triggerDirectExport() {
+      if (isExporting) return;
+
+      // 1. Activar inmediatamente el video en el escenario al dar clic en Exportar
+      if (hasUserVideo) {
+        videoEl.currentTime = trimStart;
+        videoEl.play();
+      } else {
+        simTime = trimStart;
+      }
+      isPlaying = true;
+      updatePlayIcon();
+
+      // 2. Verificar si Monetag está activo
+      if (!MONETAG_CONFIG.enabled) {
+        startRealCanvasExport();
+        return;
+      }
+
+      const t = I18N[currentLang] || I18N.es;
+      const banner = document.getElementById('export-live-banner');
+      const bannerText = document.getElementById('export-live-text');
+      const bannerPct = document.getElementById('export-live-pct');
+      banner.classList.remove('hidden');
+      bannerText.innerText = t.adVerifying;
+
+      if (MONETAG_CONFIG.mode === 'SDK') {
+        const sdkFn = window['show_' + MONETAG_CONFIG.zoneId];
+        if (typeof sdkFn === 'function') {
+          sdkFn().then(() => {
+            startRealCanvasExport();
+          }).catch(() => {
+            startRealCanvasExport();
+          });
+        } else {
+          startRealCanvasExport();
+        }
+      } else {
+        // Direct Link / SmartLink flow
+        window.open(MONETAG_CONFIG.directLink, '_blank');
+        let remaining = MONETAG_CONFIG.waitSeconds;
+        bannerPct.innerText = remaining + 's';
+        const timer = setInterval(() => {
+          remaining--;
+          bannerPct.innerText = Math.max(0, remaining) + 's';
+          if (remaining <= 0) {
+            clearInterval(timer);
+            startRealCanvasExport();
+          }
+        }, 1000);
+      }
+    }
+
+    function startRealCanvasExport() {
+      isExporting = true;
+      const t = I18N[currentLang] || I18N.es;
+      const banner = document.getElementById('export-live-banner');
+      const bannerText = document.getElementById('export-live-text');
+      const bannerPct = document.getElementById('export-live-pct');
+      banner.classList.remove('hidden');
+      bannerText.innerText = t.exporting;
+
+      if (hasUserVideo) {
+        videoEl.currentTime = trimStart;
+        videoEl.play();
+      } else {
+        simTime = trimStart;
+      }
+      isPlaying = true;
+      updatePlayIcon();
+
+      const stream = canvas.captureStream(30);
+      const chunks = [];
+      const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+
+      recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `VeloCut-Studio-${Date.now()}.webm`;
+        a.click();
+        isExporting = false;
+        banner.classList.add('hidden');
+      };
+
+      recorder.start();
+      const exportDurationMs = Math.max(1500, ((trimEnd - trimStart) / playbackSpeed) * 1000);
+      const startTime = performance.now();
+
+      const progressInterval = setInterval(() => {
+        const elapsed = performance.now() - startTime;
+        const pct = Math.min(100, Math.round((elapsed / exportDurationMs) * 100));
+        bannerPct.innerText = pct + '%';
+        if (elapsed >= exportDurationMs) {
+          clearInterval(progressInterval);
+          if (recorder.state !== 'inactive') recorder.stop();
+        }
+      }, 100);
+    }
+
+    // =========================================================================
+    // 7. BUCLE DE RENDERIZADO EN TIEMPO REAL
+    // =========================================================================
+    let lastFrameTime = performance.now();
+
+    function renderLoop(now) {
+      const dt = (now - lastFrameTime) / 1000;
+      lastFrameTime = now;
+
+      if (isPlaying) {
+        if (hasUserVideo) {
+          if (videoEl.currentTime >= trimEnd) {
+            videoEl.currentTime = trimStart;
+          }
+          simTime = videoEl.currentTime;
+        } else {
+          simTime += dt * playbackSpeed;
+          if (simTime >= trimEnd) simTime = trimStart;
+        }
+      }
+
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // 1. Draw Background (3D/2D/Modern/Retro/Blur)
+      drawProceduralBackground(ctx, w, h, simTime);
+
+      // 2. Draw Video or Animated Demo Clip
+      ctx.save();
+      ctx.filter = filterCSS;
+      const vw = w * videoScale;
+      const vh = hasUserVideo && videoEl.videoWidth
+        ? vw * (videoEl.videoHeight / videoEl.videoWidth)
+        : h * videoScale * 0.75;
+      const vx = (w - vw) / 2;
+      const vy = (h - vh) / 2;
+
+      if (hasUserVideo && videoEl.readyState >= 2) {
+        ctx.drawImage(videoEl, vx, vy, vw, vh);
+      } else {
+        // Built-in Live Demo Clip
+        const demoGrad = ctx.createLinearGradient(vx, vy, vx + vw, vy + vh);
+        demoGrad.addColorStop(0, '#0f172a');
+        demoGrad.addColorStop(1, '#065f46');
+        ctx.fillStyle = demoGrad;
+        ctx.fillRect(vx, vy, vw, vh);
+        ctx.strokeStyle = '#34d399';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(vx, vy, vw, vh);
+
+        // Animated pulse circle inside demo clip
+        ctx.fillStyle = 'rgba(52, 211, 153, 0.25)';
+        ctx.beginPath();
+        ctx.arc(w / 2, h / 2, 70 + Math.sin(simTime * 4) * 20, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 28px Inter';
+        ctx.textAlign = 'center';
+        ctx.fillText('VELOCUT LIVE PREVIEW', w / 2, h / 2 - 10);
+        ctx.font = '16px Inter';
+        ctx.fillStyle = '#a7f3d0';
+        ctx.fillText('Importa un video o prueba los fondos 3D/2D', w / 2, h / 2 + 24);
+      }
+      ctx.restore();
+
+      // 3. Draw Text Overlays
+      textLayers.forEach(layer => {
+        ctx.save();
+        ctx.font = `800 ${Math.round(w * 0.055)}px "${layer.font}", sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = 'rgba(0,0,0,0.85)';
+        ctx.shadowBlur = 14;
+        ctx.fillStyle = layer.color;
+        ctx.fillText(layer.text, layer.x * w, layer.y * h);
+        ctx.restore();
+      });
+
+      // 4. Update Timeline UI
+      document.getElementById('time-current').innerText = formatTime(simTime);
+      document.getElementById('time-total').innerText = formatTime(duration);
+      document.getElementById('timeline-playhead').style.left = ((simTime / duration) * 100) + '%';
+
+      requestAnimationFrame(renderLoop);
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = (sec % 60).toFixed(1).padStart(4, '0');
+      return `${m}:${s}`;
+    }
+
+    // Initialize App
+    generate3DAppIcon();
+    renderBgGrid();
+    renderTextLayersList();
+    lucide.createIcons();
+    requestAnimationFrame(renderLoop);
+  </script>
+</body>
+</html>
